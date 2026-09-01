@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OCEAN Seafarer eSIM</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+  :root{
+    --navy:#0F2040; --navy2:#0F2B46; --teal:#14B8A6; --teal2:#0FA89E; --tealtext:#0E7C78;
+    --blue:#3B82F6; --amber:#FBBF24; --bg:#F8FAFB; --panel:#F6F8FA;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Inter',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Plus Jakarta Sans',sans-serif;margin:0}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  button{font:inherit;cursor:pointer;background:none;border:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:700;transition:.15s}
+  .icon{flex-shrink:0}
+</style>
+</head>
+<body>
+  <div id="root">
+    <p style="font-family:sans-serif;text-align:center;padding:60px 20px;color:#0F2040">Loading…</p>
+  </div>
+
+<script type="text/javascript">
+if (typeof React === "undefined" || typeof ReactDOM === "undefined") {
+  document.getElementById("root").innerHTML =
+    '<div style="font-family:sans-serif;max-width:480px;margin:60px auto;padding:24px;' +
+    'border:1px solid #f0c0c0;background:#fff5f5;border-radius:12px;color:#900">' +
+    '<strong>Could not load React from the CDN.</strong><br><br>' +
+    'This usually means your network/browser is blocking cdnjs.cloudflare.com ' +
+    '(corporate firewall, ad-blocker, or no internet connection). ' +
+    'Try disabling any ad-blocker for this page, or open the file on a network ' +
+    'that allows CDN scripts, then refresh.</div>';
+  throw new Error("React/ReactDOM failed to load from CDN");
+}
+const { useState } = React;
+const h = React.createElement;
+
+/* ---------- inline icon set (no external icon lib needed) ---------- */
+function Icon({ path, size = 20, color = "currentColor", strokeWidth = 2, className = "" }) {
+  return h("svg", {
+    className: "icon " + className,
+    width: size, height: size, viewBox: "0 0 24 24",
+    fill: "none", stroke: color, strokeWidth, strokeLinecap: "round", strokeLinejoin: "round"
+  }, path);
+}
+const Anchor = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M12 22V8"}), h("path",{key:2,d:"M5 12H2a10 10 0 0 0 20 0h-3"}),
+  h("circle",{key:3,cx:12,cy:5,r:3})
+]});
+const ArrowUpRight = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M7 7h10v10"}), h("path",{key:2,d:"M7 17 17 7"})
+]});
+const Check = (p) => Icon({...p, path: [h("path",{d:"M20 6 9 17l-5-5"})]});
+const ChevronDown = (p) => Icon({...p, path: [h("path",{d:"m6 9 6 6 6-6"})]});
+const Clock3 = (p) => Icon({...p, path: [h("circle",{key:1,cx:12,cy:12,r:10}), h("polyline",{key:2,points:"12 6 12 12 16.5 12"})]});
+const Earth = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M21.54 15H17a2 2 0 0 0-2 2v4.54"}),
+  h("path",{key:2,d:"M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"}),
+  h("path",{key:3,d:"M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"}),
+  h("circle",{key:4,cx:12,cy:12,r:10})
+]});
+const HeartHandshake = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"}),
+  h("path",{key:2,d:"M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"}),
+  h("path",{key:3,d:"m18 15-2-2"}), h("path",{key:4,d:"m15 18-2-2"})
+]});
+const MapPin = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"}),
+  h("circle",{key:2,cx:12,cy:10,r:3})
+]});
+const MessageCircle = (p) => Icon({...p, path: [h("path",{d:"M7.9 20A9 9 0 1 0 4 16.1L2 22Z"})]});
+const ShieldCheck = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"}),
+  h("path",{key:2,d:"m9 12 2 2 4-4"})
+]});
+const Ship = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M12 10.189V14"}), h("path",{key:2,d:"M12 2v3"}),
+  h("path",{key:3,d:"M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"}),
+  h("path",{key:4,d:"M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76"}),
+  h("path",{key:5,d:"M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"})
+]});
+const Signal = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M2 20h.01"}), h("path",{key:2,d:"M7 20v-4"}), h("path",{key:3,d:"M12 20v-8"}),
+  h("path",{key:4,d:"M17 20V8"}), h("path",{key:5,d:"M22 4v16"})
+]});
+const Star = (p) => Icon({...p, path: [h("path",{d:"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"})]});
+const Wifi = (p) => Icon({...p, path: [
+  h("path",{key:1,d:"M12 20h.01"}), h("path",{key:2,d:"M2 8.82a15 15 0 0 1 20 0"}),
+  h("path",{key:3,d:"M5 12.859a10 10 0 0 1 14 0"}), h("path",{key:4,d:"M8.5 16.429a5 5 0 0 1 7 0"})
+]});
+const Zap = (p) => Icon({...p, path: [h("path",{d:"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"})]});
+
+/* ---------- data ---------- */
+const WA_NUMBER = "917506178946";
+const waLink = (extra) => "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(
+  "Hi OCEAN Seafarer eSIM team - I need an eSIM for" + (extra ? " " + extra : "")
+);
+
+const PLANS = [
+  { tag:"MOST POPULAR", title:"UAE 5 Days", data:"10GB", sub:"Daily 2GB", price:"₹700", compare:"Market ₹1710", save:"Save ₹1010", desc:"For Dubai / Jebel Ali port stay. Etisalat 5G.", dark:true },
+  { tag:"BEAT HOLAFly", title:"UAE 5 Days", data:"Unlimited", sub:"High-speed unlimited", price:"₹1350", compare:"Holafly $20.50 ~₹1710", save:"Save 50%", desc:"High-speed unlimited. No fair-use cut. Global 5G networks.", dark:true },
+  { tag:"VPN READY", title:"China 15 Days", data:"10GB", sub:"Works with VPN", price:"₹550", compare:"Market ₹900+", save:"Trusted", desc:"Shanghai, Ningbo, Qingdao tested. Tier-1 local carriers.", dark:false },
+  { tag:"USA PORTS", title:"USA 15 Days", data:"10GB", sub:"5G Ready", price:"₹600", compare:"Market ₹1100", save:"Best Value", desc:"Houston, Long Beach, New York. T-Mobile / AT&T.", dark:false },
+  { tag:"POSTER READY", title:"EU 41 Countries", data:"10GB • 15 Days", sub:"Rotterdam to Hamburg", price:"₹500", compare:"Market ₹850", save:"Seafarer Pick", desc:"One eSIM for all Europe. Vodafone / Orange.", dark:false },
+  { tag:"ASIA PACK", title:"Asia 10 Countries", data:"10GB • 15 Days", sub:"SG, MY, JP, KR +6", price:"₹550", compare:"Market ₹950", save:"Multi-port", desc:"Perfect for Asia run. Local tier-1 carriers.", dark:false },
+];
+
+const FAQS = [
+  { q:"Do you have UAE Unlimited? Is 10GB enough?", a:"Yes. We offer both. 10GB (2GB/day) is enough for WhatsApp video calls, maps & UPI for 5 days at Jebel Ali / Dubai. If you stream a lot, take our Unlimited at ₹1350 — still 50% cheaper than Holafly's $20.50 (₹1710). Both on Global 5G Networks via Etisalat 5G / du." },
+  { q:"Which network will I get? Will it work inside ship?", a:"Global 5G Networks — Coverage in 190+ Countries — Local Tier-1 Carriers like Etisalat 5G / du / T-Mobile / Vodafone. UAE: Etisalat 5G (primary) + du fallback. USA: T-Mobile / AT&T. EU: Vodafone / Orange. Signal depends on distance from shore. At anchorage in Jebel Ali, most crew get 4G on deck." },
+  { q:"How fast will I get QR? I have short shore leave.", a:"Instant. You message us on WhatsApp, we send UPI link, you pay, QR in your email/WhatsApp in under 5 minutes. We've delivered at Jebel Ali, Fujairah, Singapore, Rotterdam at 2 AM. No app install needed." },
+  { q:"Are you an official seller? Why trust you?", a:"We are OCEAN Seafarer eSIM — independent, family-run seafarer support business. Managed by a final-year management student — for seafarer families, by seafarer families. 80+ seafarer families trust us, with a WhatsApp channel showing daily proof of sales." },
+];
+
+/* ---------- app ---------- */
+function App() {
+  const [openFaq, setOpenFaq] = useState(0);
+
+  return h("div", { style:{minHeight:"100vh"} }, [
+
+    /* HEADER */
+    h("header", { key:"header", style:{position:"sticky",top:0,zIndex:40,background:"rgba(255,255,255,.9)",backdropFilter:"blur(20px)",borderBottom:"1px solid rgba(15,32,64,.06)"} },
+      h("div", { className:"wrap", style:{height:68,display:"flex",alignItems:"center",justifyContent:"space-between"} }, [
+        h("div", { key:1, style:{display:"flex",alignItems:"center",gap:12} }, [
+          h("div", { key:1, style:{width:36,height:36,borderRadius:10,background:"var(--navy)",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff"} }, h(Anchor,{size:18})),
+          h("div", { key:2 }, [
+            h("div", { key:1, style:{fontWeight:800,fontSize:14} }, "OCEAN"),
+            h("div", { key:2, style:{fontWeight:700,fontSize:10,letterSpacing:"0.14em",color:"rgba(15,32,64,.6)"} }, "SEAFARER eSIM"),
+          ]),
+        ]),
+        h("a", { key:2, href: waLink(), target:"_blank", rel:"noopener", className:"btn",
+          style:{background:"var(--teal)",color:"#fff",height:36,padding:"0 16px",fontSize:13} },
+          [h(MessageCircle,{key:1,size:16}), "WhatsApp Us"])
+      ])
+    ),
+
+    /* HERO */
+    h("section", { key:"hero", style:{position:"relative",overflow:"hidden",background:"linear-gradient(180deg,#0F2040,#122A52)"} }, [
+      h("div", { key:"wave", style:{position:"absolute",bottom:0,left:0,right:0} },
+        h("svg", { viewBox:"0 0 1440 120", style:{width:"100%",height:80}, },
+          h("path", { d:"M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z", fill:"#F8FAFB" }))
+      ),
+      h("div", { key:"content", className:"wrap", style:{position:"relative",padding:"56px 20px 110px",color:"#fff"} }, [
+        h("div", { key:1, style:{display:"inline-flex",alignItems:"center",gap:8,borderRadius:999,background:"rgba(255,255,255,.1)",border:"1px solid rgba(255,255,255,.1)",padding:"4px 12px",fontSize:11,fontWeight:700} },
+          "LIVE: 80+ SEAFARER FAMILIES TRUST US • 2 DAILY SALES"),
+        h("h1", { key:2, style:{marginTop:20,fontSize:"clamp(32px,5vw,52px)",lineHeight:.98,letterSpacing:"-0.02em",fontWeight:800} }, [
+          "OCEAN Seafarer eSIM", h("br",{key:1}),
+          h("span",{key:2,style:{color:"rgba(255,255,255,.7)",fontWeight:500}}, "Stay Connected at Sea."), h("br",{key:3}),
+          h("span",{key:4,style:{color:"var(--teal)"}}, "From Ship to Shore.")
+        ]),
+        h("p", { key:3, style:{marginTop:18,fontSize:16,lineHeight:1.6,color:"rgba(255,255,255,.7)",maxWidth:520} },
+          "Family-run seafarer support business. No roaming bills. Instant QR at port. Real support on WhatsApp, not bots."),
+        h("div", { key:4, style:{marginTop:24,display:"flex",flexWrap:"wrap",gap:12} }, [
+          h("a", { key:1, href:waLink(), target:"_blank", rel:"noopener", className:"btn",
+            style:{background:"var(--teal)",color:"#fff",height:48,padding:"0 24px",fontSize:15} },
+            [h(MessageCircle,{key:1,size:18}), "WhatsApp +91 75061 78946"]),
+          h("a", { key:2, href:"#plans", className:"btn",
+            style:{background:"#fff",color:"var(--navy)",height:48,padding:"0 24px",fontSize:15} },
+            ["View Plans", h(ArrowUpRight,{key:1,size:16})]),
+        ]),
+        h("div", { key:5, style:{marginTop:32,display:"grid",gridTemplateColumns:"repeat(3,1fr)",maxWidth:420,gap:16,borderTop:"1px solid rgba(255,255,255,.1)",paddingTop:20} }, [
+          h("div",{key:1},[h("div",{key:1,style:{fontSize:22,fontWeight:800}},"190+"),h("div",{key:2,style:{fontSize:11,color:"rgba(255,255,255,.6)",marginTop:4}},"Countries covered")]),
+          h("div",{key:2},[h("div",{key:1,style:{fontSize:22,fontWeight:800}},"5 min"),h("div",{key:2,style:{fontSize:11,color:"rgba(255,255,255,.6)",marginTop:4}},"Avg QR delivery")]),
+          h("div",{key:3},[h("div",{key:1,style:{fontSize:22,fontWeight:800}},"0 Roaming"),h("div",{key:2,style:{fontSize:11,color:"rgba(255,255,255,.6)",marginTop:4}},"Pay for data only")]),
+        ])
+      ])
+    ]),
+
+    /* PLANS */
+    h("section", { key:"plans", id:"plans", style:{background:"#fff",borderTop:"1px solid rgba(0,0,0,.06)",borderBottom:"1px solid rgba(0,0,0,.06)"} },
+      h("div", { className:"wrap", style:{padding:"56px 20px"} }, [
+        h("h2", { key:1, style:{fontSize:28,fontWeight:800,letterSpacing:"-0.02em"} }, "Popular Plans — Instant QR"),
+        h("div", { key:2, style:{marginTop:28,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:16} },
+          PLANS.map((p, i) => h("div", { key:i, style:{
+              borderRadius:19, padding:22, display:"flex", flexDirection:"column",
+              background: p.dark ? "var(--navy2)" : "#fff",
+              border: p.dark ? "1px solid var(--navy2)" : "1px solid rgba(0,0,0,.06)",
+              color: p.dark ? "#fff" : "var(--navy)"
+            }}, [
+            h("div", { key:1, style:{display:"flex",justifyContent:"space-between",alignItems:"center"} }, [
+              h("span",{key:1,style:{fontSize:10,fontWeight:700,letterSpacing:"0.1em",padding:"4px 10px",borderRadius:999,
+                background: p.dark ? "rgba(255,255,255,.1)" : "var(--navy)", color: p.dark ? "rgba(255,255,255,.8)" : "#fff"}}, p.tag),
+              h("span",{key:2,style:{fontSize:11,fontWeight:600,opacity:.7}}, p.save)
+            ]),
+            h("div", { key:2, style:{marginTop:16} }, [
+              h("div",{key:1,style:{fontSize:11,fontWeight:700,letterSpacing:"0.1em",opacity:.6}}, p.title.toUpperCase()),
+              h("div",{key:2,style:{marginTop:4,fontSize:22,fontWeight:800}}, p.data),
+              h("div",{key:3,style:{fontSize:12,marginTop:4,opacity:.7}}, p.sub),
+            ]),
+            h("div", { key:3, style:{marginTop:18,display:"flex",alignItems:"baseline",gap:10} }, [
+              h("div",{key:1,style:{fontSize:28,fontWeight:800,letterSpacing:"-0.02em"}}, p.price),
+              h("div",{key:2,style:{fontSize:12,opacity:.5,textDecoration:"line-through"}}, p.compare),
+            ]),
+            h("div", { key:4, style:{marginTop:8,fontSize:12.5,lineHeight:1.5,opacity:.75} }, p.desc),
+            h("div", { key:5, style:{marginTop:"auto",paddingTop:18} },
+              h("a", { href: waLink(p.title + " " + p.data + " " + p.price), target:"_blank", rel:"noopener",
+                className:"btn", style:{
+                  width:"100%", justifyContent:"center", height:42, borderRadius:999, fontSize:13,
+                  background: p.dark ? "var(--teal)" : "var(--navy)", color:"#fff"
+                }}, [h(MessageCircle,{key:1,size:16}), "Get on WhatsApp"])
+            )
+          ]))
+        )
+      ])
+    ),
+
+    /* WHY / TRUST STRIP */
+    h("section", { key:"why", className:"wrap", style:{padding:"56px 20px"} }, [
+      h("h2", { key:1, style:{fontSize:26,fontWeight:800,letterSpacing:"-0.02em",maxWidth:560} },
+        "Built for seafarers. Global 5G coverage. Delivered like family."),
+      h("div", { key:2, style:{marginTop:28,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:16} }, [
+        h("div",{key:1,style:{borderRadius:20,background:"#fff",border:"1px solid rgba(0,0,0,.06)",padding:24}},[
+          h("div",{key:1,style:{width:44,height:44,borderRadius:12,background:"#E6FBF8",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--tealtext)",fontWeight:800,fontSize:18}},"₹"),
+          h("h3",{key:2,style:{marginTop:16,fontSize:18,fontWeight:700}},"Save 50% vs Holafly & Airalo"),
+          h("p",{key:3,style:{marginTop:8,fontSize:13.5,lineHeight:1.6,opacity:.65}},"Same global 5G networks via Etisalat 5G / du, at a fraction of the big-brand price."),
+        ]),
+        h("div",{key:2,style:{borderRadius:20,background:"#fff",border:"1px solid rgba(0,0,0,.06)",padding:24}},[
+          h("div",{key:1,style:{width:44,height:44,borderRadius:12,background:"var(--navy)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center"}},h(Zap,{size:20})),
+          h("h3",{key:2,style:{marginTop:16,fontSize:18,fontWeight:700}},"Instant QR in 5 mins at port"),
+          h("p",{key:3,style:{marginTop:8,fontSize:13.5,lineHeight:1.6,opacity:.65}},"WhatsApp, pay UPI, QR to email + WhatsApp. No app, no KYC."),
+        ]),
+        h("div",{key:3,style:{borderRadius:20,background:"var(--navy)",color:"#fff",padding:24}},[
+          h("div",{key:1,style:{width:44,height:44,borderRadius:12,background:"rgba(255,255,255,.1)",display:"flex",alignItems:"center",justifyContent:"center"}},h(HeartHandshake,{size:20})),
+          h("h3",{key:2,style:{marginTop:16,fontSize:18,fontWeight:700}},"Made for seafarers, by seafarer families"),
+          h("p",{key:3,style:{marginTop:8,fontSize:13.5,lineHeight:1.6,opacity:.6}},"80+ families trust us, with a WhatsApp channel of daily proof and real reviews."),
+        ]),
+      ])
+    ]),
+
+    /* HOW IT WORKS */
+    h("section", { key:"how", id:"how", className:"wrap", style:{paddingBottom:56} },
+      h("div", { style:{borderRadius:28,background:"var(--navy)",color:"#fff",padding:"36px 24px",position:"relative",overflow:"hidden"} }, [
+        h("h2", { key:1, style:{fontSize:26,fontWeight:800,letterSpacing:"-0.02em"} }, "How it works — 3 steps, 5 minutes"),
+        h("div", { key:2, style:{marginTop:28,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:20} },
+          [
+            { n:"01", t:"Choose Plan on WhatsApp", d:"Send country + days. We confirm best network and price. UPI, Card, PayPal ok.", Ic:MessageCircle },
+            { n:"02", t:"Get QR in 5 mins", d:"Pay → QR to email + WhatsApp instantly. Family team tracks delivery.", Ic:Zap },
+            { n:"03", t:"Activate at Port", d:"iPhone: Settings > Cellular > Add eSIM. Android: Settings > Network > Add eSIM.", Ic:Ship },
+          ].map((s,i) => h("div",{key:i,style:{borderRadius:18,background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.1)",padding:20}},[
+            h("div",{key:1,style:{display:"flex",justifyContent:"space-between",alignItems:"center"}},[
+              h("div",{key:1,style:{width:36,height:36,borderRadius:999,background:"#fff",color:"var(--navy)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:13}}, s.n),
+              h(s.Ic,{key:2,size:18,color:"rgba(255,255,255,.5)"})
+            ]),
+            h("div",{key:2,style:{marginTop:16,fontSize:16,fontWeight:700}}, s.t),
+            h("div",{key:3,style:{marginTop:8,fontSize:13,lineHeight:1.6,color:"rgba(255,255,255,.6)"}}, s.d),
+          ]))
+        ),
+        h("a", { key:3, href:waLink(), target:"_blank", rel:"noopener", className:"btn",
+          style:{marginTop:24,height:44,background:"#fff",color:"var(--navy)",padding:"0 20px",fontSize:13.5} },
+          "Start on WhatsApp — +91 75061 78946")
+      ])
+    ),
+
+    /* FAQ */
+    h("section", { key:"faq", style:{background:"#fff",borderTop:"1px solid rgba(0,0,0,.06)"} },
+      h("div", { className:"wrap", style:{padding:"56px 20px",display:"grid",gridTemplateColumns:"1fr",gap:24} }, [
+        h("h2", { key:1, style:{fontSize:26,fontWeight:800,letterSpacing:"-0.02em"} }, "Questions from crew at Jebel Ali, China, USA."),
+        h("div", { key:2, style:{display:"flex",flexDirection:"column",gap:8} },
+          FAQS.map((f,i) => h("div", { key:i, style:{
+              borderRadius:16, border: openFaq===i ? "1px solid rgba(0,0,0,.1)" : "1px solid rgba(0,0,0,.06)",
+              background: openFaq===i ? "var(--panel)" : "#fff"
+            }}, [
+            h("button", { key:1, onClick:()=>setOpenFaq(openFaq===i?null:i),
+              style:{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center",gap:16,padding:20,textAlign:"left"} }, [
+              h("div",{key:1,style:{fontSize:14.5,fontWeight:700,lineHeight:1.35}}, f.q),
+              h("div",{key:2,style:{
+                  width:28,height:28,borderRadius:999,border:"1px solid rgba(0,0,0,.1)",display:"flex",alignItems:"center",justifyContent:"center",
+                  transform: openFaq===i ? "rotate(180deg)" : "none", transition:"transform .15s",
+                  background: openFaq===i ? "var(--navy)" : "#fff", color: openFaq===i ? "#fff" : "var(--navy)"
+                }}, h(ChevronDown,{size:16}))
+            ]),
+            openFaq===i ? h("div",{key:2,style:{padding:"0 20px 20px",marginTop:-4,fontSize:13.5,lineHeight:1.7,opacity:.65}}, f.a) : null
+          ]))
+        )
+      ])
+    ),
+
+    /* FOOTER */
+    h("footer", { key:"footer", style:{borderTop:"1px solid rgba(0,0,0,.06)",background:"#fff"} },
+      h("div", { className:"wrap", style:{padding:"36px 20px",display:"flex",flexWrap:"wrap",justifyContent:"space-between",gap:16} }, [
+        h("div", { key:1, style:{display:"flex",alignItems:"center",gap:8,fontWeight:800} }, [h(Anchor,{key:1,size:16}), "OCEAN SEAFARER eSIM"]),
+        h("div", { key:2, style:{fontSize:12,opacity:.5} },
+          "© " + new Date().getFullYear() + " OCEAN Seafarer eSIM • Stay Connected at Sea. From Ship to Shore.")
+      ])
+    ),
+  ]);
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(h(React.StrictMode, null, h(App)));
+</script>
+</body>
+</html>
