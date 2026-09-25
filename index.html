@@ -1,351 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCEAN Seafarer eSIM</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
-  :root{
-    --navy:#0F2040; --navy2:#0F2B46; --teal:#14B8A6; --teal2:#0FA89E; --tealtext:#0E7C78;
-    --blue:#3B82F6; --amber:#FBBF24; --bg:#F8FAFB; --panel:#F6F8FA;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:'Inter',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased}
-  h1,h2,h3{font-family:'Plus Jakarta Sans',sans-serif;margin:0}
-  a{color:inherit;text-decoration:none}
-  img,svg{display:block}
-  button{font:inherit;cursor:pointer;background:none;border:none}
-  .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
-  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:700;transition:.15s}
-  .icon{flex-shrink:0}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCEAN SEAFARER eSIM - Connection That Feels Like Home</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#070d19',
+                            800: '#0b132b',
+                            700: '#1c2541',
+                            600: '#232ed1'
+                        },
+                        mint: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(28, 37, 65, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-bg {
+            background: radial-gradient(circle at top right, #1c2541 0%, #0b132b 60%, #070d19 100%);
+        }
+    </style>
 </head>
-<body>
-  <div id="root">
-    <p style="font-family:sans-serif;text-align:center;padding:60px 20px;color:#0F2040">Loading…</p>
-  </div>
+<body class="bg-navy-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
-<script type="text/javascript">
-if (typeof React === "undefined" || typeof ReactDOM === "undefined") {
-  document.getElementById("root").innerHTML =
-    '<div style="font-family:sans-serif;max-width:480px;margin:60px auto;padding:24px;' +
-    'border:1px solid #f0c0c0;background:#fff5f5;border-radius:12px;color:#900">' +
-    '<strong>Could not load React from the CDN.</strong><br><br>' +
-    'This usually means your network/browser is blocking cdnjs.cloudflare.com ' +
-    '(corporate firewall, ad-blocker, or no internet connection). ' +
-    'Try disabling any ad-blocker for this page, or open the file on a network ' +
-    'that allows CDN scripts, then refresh.</div>';
-  throw new Error("React/ReactDOM failed to load from CDN");
-}
-const { useState } = React;
-const h = React.createElement;
+    <!-- Live Alert Ticker -->
+    <div class="bg-navy-800 text-xs py-2 px-4 border-b border-slate-800 text-slate-300 overflow-hidden whitespace-nowrap">
+        <div class="inline-flex space-x-8 animate-pulse">
+            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-mint-400 mr-2"></span> UAE: 10GB eSIM delivered in 4m 32s to container ship Captain</span>
+            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-mint-400 mr-2"></span> Singapore: Global plan activated by Seaman</span>
+            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-mint-400 mr-2"></span> Suez Canal: Family plan order completed</span>
+        </div>
+    </div>
 
-/* ---------- inline icon set (no external icon lib needed) ---------- */
-function Icon({ path, size = 20, color = "currentColor", strokeWidth = 2, className = "" }) {
-  return h("svg", {
-    className: "icon " + className,
-    width: size, height: size, viewBox: "0 0 24 24",
-    fill: "none", stroke: color, strokeWidth, strokeLinecap: "round", strokeLinejoin: "round"
-  }, path);
-}
-const Anchor = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M12 22V8"}), h("path",{key:2,d:"M5 12H2a10 10 0 0 0 20 0h-3"}),
-  h("circle",{key:3,cx:12,cy:5,r:3})
-]});
-const ArrowUpRight = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M7 7h10v10"}), h("path",{key:2,d:"M7 17 17 7"})
-]});
-const Check = (p) => Icon({...p, path: [h("path",{d:"M20 6 9 17l-5-5"})]});
-const ChevronDown = (p) => Icon({...p, path: [h("path",{d:"m6 9 6 6 6-6"})]});
-const Clock3 = (p) => Icon({...p, path: [h("circle",{key:1,cx:12,cy:12,r:10}), h("polyline",{key:2,points:"12 6 12 12 16.5 12"})]});
-const Earth = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M21.54 15H17a2 2 0 0 0-2 2v4.54"}),
-  h("path",{key:2,d:"M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"}),
-  h("path",{key:3,d:"M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"}),
-  h("circle",{key:4,cx:12,cy:12,r:10})
-]});
-const Mail = (p) => Icon({...p, path: [
-  h("rect",{key:1,x:2,y:4,width:20,height:16,rx:2}),
-  h("path",{key:2,d:"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"})
-]});
-const Headphones = (p) => Icon({...p, path: [
-  h("path",{d:"M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3v-3a9 9 0 1 1 18 0v3h-3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"})
-]});
-const Info = (p) => Icon({...p, path: [
-  h("circle",{key:1,cx:12,cy:12,r:10}), h("path",{key:2,d:"M12 16v-4"}), h("path",{key:3,d:"M12 8h.01"})
-]});
-const Handshake = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"m11 17 2 2a1 1 0 1 0 3-3"}),
-  h("path",{key:2,d:"m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"}),
-  h("path",{key:3,d:"m21 3 1 11h-2"}),
-  h("path",{key:4,d:"M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"}),
-  h("path",{key:5,d:"M3 4h8"})
-]});
-const HeartHandshake = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"}),
-  h("path",{key:2,d:"M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"}),
-  h("path",{key:3,d:"m18 15-2-2"}), h("path",{key:4,d:"m15 18-2-2"})
-]});
-const MapPin = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"}),
-  h("circle",{key:2,cx:12,cy:10,r:3})
-]});
-const MessageCircle = (p) => Icon({...p, path: [h("path",{d:"M7.9 20A9 9 0 1 0 4 16.1L2 22Z"})]});
-const ShieldCheck = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"}),
-  h("path",{key:2,d:"m9 12 2 2 4-4"})
-]});
-const Ship = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M12 10.189V14"}), h("path",{key:2,d:"M12 2v3"}),
-  h("path",{key:3,d:"M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"}),
-  h("path",{key:4,d:"M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76"}),
-  h("path",{key:5,d:"M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"})
-]});
-const Signal = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M2 20h.01"}), h("path",{key:2,d:"M7 20v-4"}), h("path",{key:3,d:"M12 20v-8"}),
-  h("path",{key:4,d:"M17 20V8"}), h("path",{key:5,d:"M22 4v16"})
-]});
-const Star = (p) => Icon({...p, path: [h("path",{d:"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"})]});
-const Wifi = (p) => Icon({...p, path: [
-  h("path",{key:1,d:"M12 20h.01"}), h("path",{key:2,d:"M2 8.82a15 15 0 0 1 20 0"}),
-  h("path",{key:3,d:"M5 12.859a10 10 0 0 1 14 0"}), h("path",{key:4,d:"M8.5 16.429a5 5 0 0 1 7 0"})
-]});
-const Zap = (p) => Icon({...p, path: [h("path",{d:"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"})]});
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-slate-800 px-4 md:px-8 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-mint-400 p-0.5 flex items-center justify-center">
+                <div class="w-full h-full bg-navy-900 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-ship text-mint-400 text-lg"></i>
+                </div>
+            </div>
+            <div>
+                <h1 class="font-bold text-base md:text-lg tracking-tight text-white leading-tight">OCEAN <span class="text-amber-400">SEAFARER eSIM</span></h1>
+                <p class="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Seafarer eSIM by Seafarer Family</p>
+            </div>
+        </div>
 
-/* ---------- data ---------- */
-const WA_NUMBER = "917506178946";
-const waLink = (extra) => "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(
-  "Hi OCEAN Seafarer eSIM team - I need an eSIM for" + (extra ? " " + extra : "")
-);
+        <div class="flex items-center space-x-3">
+            <!-- Currency Toggle -->
+            <button id="currencyBtn" onclick="toggleCurrency()" class="bg-navy-800 border border-slate-700 hover:border-slate-500 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition">
+                <span id="currFlag">🇮🇳</span>
+                <span id="currText" class="font-semibold">INR (₹)</span>
+            </button>
 
-const PLANS = [
-  { tag:"MOST POPULAR", title:"UAE 5 Days", data:"10GB", sub:"Daily 2GB", price:"₹700", compare:"Market ₹1710", save:"Save ₹1010", desc:"For Dubai / Jebel Ali port stay. Etisalat 5G.", dark:true },
-  { tag:"BEAT HOLAFly", title:"UAE 5 Days", data:"Unlimited", sub:"High-speed unlimited", price:"₹1350", compare:"Holafly $20.50 ~₹1710", save:"Save 50%", desc:"High-speed unlimited. No fair-use cut. Global 5G networks.", dark:true },
-  { tag:"VPN READY", title:"China 15 Days", data:"10GB", sub:"Works with VPN", price:"₹550", compare:"Market ₹900+", save:"Trusted", desc:"Shanghai, Ningbo, Qingdao tested. Tier-1 local carriers.", dark:false },
-  { tag:"USA PORTS", title:"USA 15 Days", data:"10GB", sub:"5G Ready", price:"₹600", compare:"Market ₹1100", save:"Best Value", desc:"Houston, Long Beach, New York. T-Mobile / AT&T.", dark:false },
-  { tag:"POSTER READY", title:"EU 41 Countries", data:"10GB • 15 Days", sub:"Rotterdam to Hamburg", price:"₹500", compare:"Market ₹850", save:"Seafarer Pick", desc:"One eSIM for all Europe. Vodafone / Orange.", dark:false },
-  { tag:"ASIA PACK", title:"Asia 10 Countries", data:"10GB • 15 Days", sub:"SG, MY, JP, KR +6", price:"₹550", compare:"Market ₹950", save:"Multi-port", desc:"Perfect for Asia run. Local tier-1 carriers.", dark:false },
-];
+            <!-- WhatsApp Header CTA -->
+            <a href="https://wa.me/917506178946" target="_blank" class="bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold text-xs md:text-sm px-4 py-2 rounded-lg flex items-center space-x-2 transition shadow-lg shadow-mint-500/20">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span class="hidden sm:inline">WhatsApp Us</span>
+            </a>
+        </div>
+    </header>
 
-const FAQS = [
-  { q:"Do you have UAE Unlimited? Is 10GB enough?", a:"Yes. We offer both. 10GB (2GB/day) is enough for WhatsApp video calls, maps & UPI for 5 days at Jebel Ali / Dubai. If you stream a lot, take our Unlimited at ₹1350 — still 50% cheaper than Holafly's $20.50 (₹1710). Both on Global 5G Networks via Etisalat 5G / du." },
-  { q:"Which network will I get? Will it work inside ship?", a:"Global 5G Networks — Coverage in 190+ Countries — Local Tier-1 Carriers like Etisalat 5G / du / T-Mobile / Vodafone. UAE: Etisalat 5G (primary) + du fallback. USA: T-Mobile / AT&T. EU: Vodafone / Orange. Signal depends on distance from shore. At anchorage in Jebel Ali, most crew get 4G on deck." },
-  { q:"How fast will I get QR? I have short shore leave.", a:"Instant. You message us on WhatsApp, we send UPI link, you pay, QR in your email/WhatsApp in under 5 minutes. We've delivered at Jebel Ali, Fujairah, Singapore, Rotterdam at 2 AM. No app install needed." },
-  { q:"Are you an official seller? Why trust you?", a:"We are OCEAN Seafarer eSIM — independent, family-run seafarer support business. Managed by a final-year management student — for seafarer families, by seafarer families. 80+ seafarer families trust us, with a WhatsApp channel showing daily proof of sales." },
-];
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="hero-bg relative pt-8 pb-16 px-4 md:px-8 overflow-hidden">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left Hero Text -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full text-amber-400 text-xs font-medium">
+                        <i class="fa-solid fa-anchor"></i>
+                        <span>Built for Seafarers, by Seafarer Families</span>
+                    </div>
 
-/* ---------- app ---------- */
-function App() {
-  const [openFaq, setOpenFaq] = useState(0);
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        OCEAN SEAFARER eSIM: <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-mint-400 via-teal-300 to-blue-400">
+                            Connection That Feels Like Home.
+                        </span>
+                    </h2>
 
-  return h("div", { style:{minHeight:"100vh"} }, [
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed max-w-xl">
+                        Stay Connected in 5 Mins with high-speed port 5G data. No expensive roaming, no contract, instant QR delivered via WhatsApp.
+                    </p>
 
-    /* HEADER */
-    h("header", { key:"header", style:{position:"sticky",top:0,zIndex:40,background:"rgba(255,255,255,.9)",backdropFilter:"blur(20px)",borderBottom:"1px solid rgba(15,32,64,.06)"} },
-      h("div", { className:"wrap", style:{height:68,display:"flex",alignItems:"center",justifyContent:"space-between"} }, [
-        h("div", { key:1, style:{display:"flex",alignItems:"center",gap:12} }, [
-          h("img", { key:1, src:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADIAMgDASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAABgcEBQADCAIBCf/EAE0QAAEDAwMCAwUECAEICQMFAAECAwQFBhEAEiEHMRNBURQiMmFxCEKBoRUWI1JigpGxkiQzNHKissHCCRclNUNTc6PRJkTSRqSzw+L/xAAbAQADAQEBAQEAAAAAAAAAAAADBAUCBgEAB//EADkRAAEDAgQCCAQFBAIDAAAAAAEAAgMEEQUSITFBURMiYXGBkbHBMqHR8BQVIzNSQmLh8QZyQ4KS/9oADAMBAAIRAxEAPwBKxIwSBxqaEhIxr2hASNeVg9tWaSivupNRVWWtauca08nW8oJ8tekMHPbV+KjDQpL6kkrS2nPlqWyn5a9txz6HUptgjy0cQgIRmK2RBzq9pqASONRreotTrE9EKlwn5khXIbaTnA9SewHzOBpkrtK1rIgoqXUm6YsDIyiBFc3POfIYypX8o/HSdbiNHQWErusdmjUnwC8hpKqsP6Q05nQeapaa2CpKQNylcBIGSfoPPRlSbOuOoJSpmlOtIPZcghof0Vz+WgKu/aCptCaVG6fWhDpjeMCfVc+Kv5htJKz/ADKH00qLr6uXtcalip3TV5Dav/BjOCGz/hb94j6nUp2IYhUfsxCMc3nX/wCQnWYPSs/ekLzybt5ldNVKy4VORuuO86FSE+YW6CR/iKdDMx3ohGWpE/qoh9Y7iLtP+6lWuVlS1uOFYixd57rW34qz/Msk6lsPVRzhEhxA/gAT/Yay2lxCb4qk/wDq0D11TAjoYdoR4kro9yb9ndec35Vs+uxYH/8ADrWin9C5ytkHqoqOs9vaFIH+8hP99JOh2zeVYI/RcSrzPmyhah/XtogPS/qQUZcpMjB8n1tf2UdE/K6wbVbwe3KhuxCgZo6JnnZN2L0up9QT4ltX7Raok9kkjJ/FClf21omdP7spWVOUwykJ7riLDv8Asj3vy0lZ3T+8aerxpFpOEp58ViPhQ/maOt9Ev+9rZdDUK4K1EDZ5jylCU0PkUuDcPwOvujxiDVsjZBycLHzGi+acKqdAC3tab/JNFG5twtuJUhxPCkKGFD6g86+rUCNQ6P1zaqrKY18WxDq6Oxl04ftUfPw1ELH8qtFFPp1r3bFVNsa4WJBSMrhSV4cb+RyApP8AMMfxaNFj7YXBtdGYzz3b5j3S0+AySNLqR4kHLZ3kUNvIChqulRgc8auZ0OZT5Riz4zkd4c7HBjI9R5EfMZGo60AjXRtkjkaHMIIPFc6Y5I3ZXCxCGJMXBPGoS2sHtollMggnGqmS3g6UmjDgqVLKQVWlA1GkspIPGpjhwdaHFjUCqpLroqeoQ/UIgIPGs1ZyUhQPGs1GfT2KqNlBC3lB19S0SdT/AGY57a3MxueRrto42xhci55eVDai58tSW4efLVnHi58tWEeGVEAJJJIAAGST6a2Z2hZMRVQ1C+WNHVtdP2BSlXHeFQboVAaT4inXlBDjqf4c/CD6nk+QOrN9q3OmlGZuC8G/bKu9/wB20ZGFLWvyKh2yPMn3U+eTwEL1N6gXDe1XMusyUu+GsmPDaJMWJ/qj/wARfqs/hrnZsTqMReYqE5WDQyezRxPbsrEOHxUoD6rVx2b7lMa9euTFLpy6H0yp7dApnY1F1rdKk/xNoVz/ADufgBpEVOsTp092c48+7KeJLkqQ4XZDn1We30GNWVt0uRUKmmTJpj9TihX+U4cLYx5nxOySO4zo9ds7pfRKm4uvXRVXUtAKFMhMpW6rIyEqfxtSMY8s/TRaXDYqS7oxdx3J1cfFblrDKcrjYcuAQZSenNy12lt1O32mK6lY/aswnt8hpfcpW2rCs/TIPkdGNI6LJpUIVPqVckS1oxTlEJvEic56DYDtR+JJ+Wi+tX9CtGzWqTZFDj23NqKA4tDPvPsM/cW84cqW4ochJOEg589D3S+y519Vtyp1yZINOjEKlynF5Ws9/DQT94/kOfTT8dK94zO0HzSNTXxwNJOqq7X6ZG6q/LFsGSigx1gGoVMJb2DA+LbxknOEjnGM6cdGtPp/ZDbRVBNYm7ylE2YyVsqWMcNtpyDyeO/Y5PGi6TJNOpDFNo1OEGnJHhxEJaPhk/8AMc8k9zoFj0ZMQ1GoXrU3J61FQQ22kqWwgZysYOEH0xyMafihu3U2HIbnv+7LlKjEJahx4BTq5elxxr2i0NmZAXFecQENIaCEtp82ynPB8ufw1Z3Tedv0V5xuSqKqYE/5hLW5RJGQDgcfjpJ3VUaCzXDJpMJciO5+2Qt+W4XEnPY7VAg8efPOqh2pUyfIcemxJiHVglTrMouHPqQ5nP8AiGmuiYLdS3db6r4YaJACXeqK6zdVWiVlx7wlU4One2yjACUntjGrKZU3qvT25FctpU6nOAFLz6Nywk8bgtICgPn2+uqfp/ZC7uekxqJMakyWUe0JKkFPhhJHuqbzzu5HmOOCc404qNQZYoNYRWmaeqcIqWWNq0o8Ue8NpQoAoCd24bSCSkZ17PicLQG2BIsLcRdGbg4LgQMu+uvDlZIuu9NW6jCcqtpOOyEtqO6G4R4ycd/DI+Mf0P10u0TahTKiiQpT6JTKvckNrLUhoj0WOfwOddEP+PTnENhtcfwxhCSnGAPT5fPQ1fdsxrrhuzobSUVptJUoJGBLA7g/x+h8+2s1VAyRhLNQeH3uvaDF5YJAyfbgeI7/AKrVZPWQSoaaTfMZFYp47TW2tshg/vOITz/O3+IOjKrURs05Nat+Yiq0hxPiJdaUFKbT6nHCk/xDt5gaS1n2/R5NOkKfdKqhnGEqKHI2DwR6Z/e5HkdT7frlydN63vjPJXFccBcaJ2R5J/iH/gvY+8OD551yjsNqcP8A16DQcWH4T3fxPyXZGop6/wDSqt+DuI7+YRq6sKGquYMjRcWqTeVIXX7TSUSEf6bTSnatteMkBI7K89o4UOU+mhJ73051Xw/EIq+MuZoRoQdweRUOsoZKGTK/UHYjYhUsskE6gOuEHVrLaJzxqqfaUM8aafCCvYprLWV51mtZSRrNTZKO7lTjqdEeqg48tYmNg9tEL0YDy1FWzz20WSe6FFT23USOyO54x30ZyptM6ZW41cdZjiVXpfu0mm5wvdj4j+7gclX3R8zx4ttimUKjTL2uIhFLpvLKCMl94dgB54OAB5qI9DpHXrXqvdlxSq1Vs+1vjaGgolMRnPusp/uo+Z1ALJcXqDSxm0bfjI4/2j3VUujw+ITPF3n4R7lV9wVGs3XXZNUqk3x5cg7XpHIQhHk00Putj8+51tgN2/SsKXFNUfT2So4bB+Y7H89amIbriQjBI/dGjmZ0mumHZguzwIcimhIU77PIC3GUnzUnHbnnBONdlHT09IxkQAaNh/hc1JPNUuc+5NtTb3QhUa1WqujwGwWY6BwxFbISkfhz/wANV8ilSoqI78hpSBISXGyruoBRBJ9OQe+iCkQS3IUvx1xtoH7VJUNvvD93nH00xrxjvM2JbT7FXW047GkKX7zqvaE+KexIJ4zj3sd9amHRSNZbc+yxC9r4nPB2Soo9Mm1ussRkFb8qW8EhSySVKJ7k/n+GuhKWYVJoLdIpygmLEJQpfbxFD4nD9Tk/THppa9P44pqKhW1p96Mz4TBPkteRn8Eg/wBdeWa1HmUGdRJVQVEflOZQ6tGUYJGQSO3bknT/AEA35Lm6uV1XJkGw3Tmq930ByzIzECs05c9DYMpLbv7VaR7rYHOM4JHGCc65zvC5qrVJ7jRdchR2VFLccEoUny9/zz/bWqsxG6RUZVOV4pZeSNq0rBUtBIIOBwQSM479taBsqra4G9b0toH2N5adq3Ep58JXJyccp9CNvYjCMcIpAcuoJueevsrrWtqHNe7cAAcv9qnHCFZWjP11YtwWIDQeqyleItG5uI2rDhB7FZPwJPpgqPoBzr5TtlPp4qryEOPLWUw21jI3DGXSD3CcgAeavkk6125G/S9xMx5T7hEhzLqySpSvM8+px31rMZTZuyYNo2lzkyOntcqFIoqatbVOeYqwLrSAykojlJwMrUT7+B6nvqDJveowqk4xX0BUgp3LQkp95WNwORwM5x5+R450RpDEOI3EithphobUJB4A1j9PjqS3KqKY7WEnwy62FuEEYO1HfBHmcDTH4eOHrDQn5+5UL8e6Zxa8Et79vYKstWryV+Kl6rx65T1AFbCkFKmSSSNivunHGflznVw7CcRIbkUvxpDTmVN7EZWkjkpUB2I8/lz21ToeodKltR40BwR5JKSdyWh4g5HCUnuM+flojsC9KBa1YMW4Q6mDLSoIUHSpQKSCgqwAeDgZB5HBB0tPNJTsMkbCTy5/O6chhjrHiORwAOx4j2S16oUl2POjXTR90dUlZS74X3Hx349FDnHqDqx6a1G2lw6ncN+RYk52mISaZRnWF7ZL6gQXlk+6Wxn4DkZGeMcl81lyfFnNxnGpAeKpUR5HKQ82fETx5HPGD5HSvvSrUys0PYhhSJYWNjbiCS0D8QSvHKeAO4zgZBOVFSui6VvU2O9vRP4TUmIGN+pboO7gV9jVu54NxOXrTQ2UuEFWHSoPNdylY7+GCcA/EjAPbTMl/o276F+tlCRscyRUov3m1j4lEDzH3scEELHnpSW1cymUJg1Q+6kYaf7AcYAXj5cBXl+epVnXsbdvNypU5pSYK8IlMoH+kNjutKewWnkgeacjz1Er6F8Lm1lH+43cfyHI+xV+nnbO001T8B2PI8/qi1+FkHjVbJgHn3dMio06FIbZqVLKHKfMSHGC2cpTkZ2j5Y5Hy48jqpk0zg+6dVaTEYquFssZ0P3ZR56GWmlMT9wl49DIJwNZoulU3BPu6zTGdpWQ1wRVISMnXqi0t6r1Zinse6t1XK8fAkcqV+A/PGvL6hk6k1iqvWj04mVmJgVqsuCn0oHuNxIKx9MKV/INcjiFS+KK0er3ENb3n6brqaeFjn3fo0anuCC+slyIrlwN0GjkJoFvr8COlJyH5SRhTh9QjOB6qJOhWj0pS0SBtJJb/r7ydMSyrLpjMWK2K5BUpLYBakRC4Se6sk+ZOTn56ZZoNGgtNPrjUHaUq8RWxTZUAnJ4BPoOPXGunw9lNg9K2Dcjc8zxOq5ardU4pUOlGg4DfThsuf7naolv2O3VEVplytvyzGbpimyFBI7ubueBwDwPiGNWnTTqnX36ZMsFUSOqJUGiwlbQddcaST72QARjHGeMZz5aIKFS7WpvUmoXlWaaiZGTJcVHbmJ3pylJ2NNtqBJPHoT8hrfW7mlTrjdlTq3HsyG+jEcot9L61YJ90hIO0HggZzxyMnU+tqJZn3dqAbjs12VejpIYYso0LhY+SjLo9vsQ3I0u6bYgSQtW5MisNAhPukZSMqSRg5B0YSZFDnWfRqNSOoFre0RkPtykt1dlKVDgthO/HmecY7jVxCs+8mqbT5LXU2iIhzHGmo3jWwwPFUtJARyM7lK55+mpEaz7uloaL91dOqy2uR7Jsk200kLeRkON8D48p7fwnSs+LzSODnEdUk7f4W4cFgiY5rL9YAHVDNOtGRBZiNyKEuuUsyd0lUB0PIUnGNxLSicaBeslAt6kXs8zbKyqA5DS6Wior8BxSVEoyeeMA89s4044fTyfublfqVYcx1SQpL9BmvU9wp3HKklKsfF+edV3USjM/qy8xWzc1LUwhRacqO2oNIV4Y9zx0jxQny53DJzpilx17qprpTpsbbd9tUs/AY4aZzYB1r3ud+6+iTvT6K66XpkhLLiGEhhoqQCtPnwfQA4/HRXHo1FqdTi/pJkMoQ+lzxWfcWCD3yNUlsxZ1OfU1tEqLIOAYyw6N48xtz9CODosFEq5kFKIT23ZnPhkYOT5nXVzywOjILxY8brj2R1DajOGHThZBvW2hWxCuENUWputxEtJDRciq8IdyQFJz5knt56X8JuoUKczUmUtvNBWEvNELbWPNOR2OPI4I9NNa+4dUg2++XoayHMI/aIOBnuRngkfLQx0ql0il3F4lfiiRTCgmU2s4QUAZJV9O/r6c6mCJ1HTZonGTKPE+KuMnFZNlmbkzKwN30amw2pC2JC5ryQttpTYPgpP31ZOCfMD058xqfEUmpqZklxZEnC9zvBOfM50IX7VrPrNzS5lPNShMuLJQDHbUMeXu+IFDjyxn5asbfrNvsUpiGq443iN52+0tusYGeBlSdv56apatr2Z5Oq4jjw7EhW4d0TrRNzAHhxRnfNpxaYwhv8AS9PebLaXisSEpLZ7gjdxkaSdciykz3H5DUkNuLIaceO7ePkocH8NHd0wZldZjtUyQzOZAU46qO+l5IAHGdpJz34xoYp0Sqw3fZmmXk+J8cd5v9msfxJVxj5nt6jXoEmQXeHW8PRGjdG0khpbfhyRZ0lqTsi+KQytSlR3W0R5LZPCgDyT/fPlqhv+jQoV1VKHTlqcjMyXENqUMEgKPlostKnRmX0SqQlPj7giWEq3JjpUcfsyeVJJ4Ku47cg5N8/Aeh3RMkP02JPhvyVKfZfjJWXEZ5CVH3kn5gjGvQ4Fxk7NttfvZL5y1/RtHbfsSZatudKgvzmoq/ZGDh2QrCW0qPZO48FR8kjJ+WqowChkOpBStLo2qHcYGf8A407r9jN1hECLS6bJpdJgM+HHhOPBxCFHla92AVLUe6jz2HYaDJdvrT7LFyEqeU+sAjuEJb//AC1ltntzO0udk6JHsdlGum6teilxpbdValRViLJ3Owld/CcHvLbH0+NI9CsaZT8PghSQFA4UPQ6Q8qnSYjqXIzoaktLS4w4PuOpOUn+vB+ROnpbFZZuC2INZbT4ZeQEPNHu24nIKT9CFJ/BPrrjcThdhVbmZ+3L8ncfNdPh8zcSprO+OPTvbw8lXyoQJPGs1Zv7SrWaI2tNl6aQIbZU5OnsQo5y6+4lpH1UcZ/46n1qPFujrG1RC8G6Ra0JMdockKkuAZ/EJ2jP11C6UOtruWRVZP+jUqG5KcJPAOMD8io/hov8As823+k7Odume0tUuuzXpyveAO1SjtHr21OlnY3EM7zpE3T/s7byAKdZE6SmEbf6zr/1bv5mwRI1a0SmMtyJACmluttIVgHKlqCEgEfM6XHUiAwu9f00xUFxIEJpMdb8t3ZGS4knJbb4UteeMHgnB50zOqkkxY1EoMRDqXXJC5K20kK2pbbVtJ/dBWpP9NKyn27GXOEqtzX6/P3go/wDKawchPokAj68jvnTVLJLWNzzm44D3XkmSjflpxlPMdu4VfJrNWq9QcetmA9UKgtALlbqiclQUAQUoOMcEd9o47a2C0KczUxNuisOT5U58NRWXXDgrCw4gJx5jAyAAMd86NIcGe6w3gCDHQWnENMYBQAPfbWojBSTxlIHA+eqGt3dYNsqdE2tQvaC8t5bEPL7niK+I+7naTj1Gnc1tAlMt907OmtXjt2uI8+QlDkd1SEoxlSk9xhI5Ovr97GCzHS+5TXHghfjKQyo7neNiktpUSB3yFKB+Y1yzWuvEJpK49vW2+/lO4Ozn/DSrjOdiM5/FWgCtdXL7qRUGqozSmyDhMGOEEfLccq/PSbqLO4uKYFRlaAuxKjfEgIS6YjbYDRQpSimK0ATngp97GecFffnQFXOrlvwXXDNu+ksqKQlbcMeMtQHIyUhRJzzknXIFTn1GqOl2pz5c1w8lUh5TnP8AMdalxH2EtKdZW2l1O9skYCk+o0RtI0aLBnJXSs3rnZzKlJiNVyoqJJOxoMpUT3PvK/4aral18iQ46SzZq9q/h8SeN35I0iqWxvcSMdzols+1Jt+30zRIJDcZkb5MhZw2w0n4lqPkB+emX0cTYi96AKp+ezV1n0Ovq0bzsiuTatSpNNYix1GW3LAW042RjKFjgqyQMYByRjXOF2FNOoqtu5CpLoSgHvsT73P4+Hpz1WmpboUSg0GG7Gt6AfcyghUl3zdcP7x8k/dHz0i+rL4Nx/oxs5ENAaI/jPvK/NQH8uqmHUf4Omc8nV5GnIDn2n5bLm6jFG4lXtjYLiMHXn3dnLmqizqFJuevx6RFkRI7jxOXZTyWmkAAkqUo8AAAnTZgdJ7KEMrN03LUsD35lIt552Ij1ws43D5jS5otm1sssTliFFS4AtpEuU00p0eRCVkEj8MHXRNHrFZk0JNUrwvRLkYNpmTabVG2GIe5W1Hs8Vv3XEJGCfx0WcSNaC0+nvf75ogqYS/LmH39/wCkjL/6ZSaJR/1loNVh3HQg54a5sdspcjr8kvNq95tX140HUu6a7DdQw3VJobKgnwy8pbffzbXlCh8iNM/qV1NnqkzmaYhsS5UZ2nVWelgIRVmd37N1bKk4Q4B97vz5aSsVLjs4BAJWDlOP3uyf9ojQJA5ls41+/v2CdgcJBpsupeiDDdzVOnVKJCQx47SBOYbT+yQsgheweSDgKA8s/IaZd0Q3YXU62qAzTI70epRprrzyl+8gtpSRgefcf1+WtnQe3Yls2LR0khMmpJWtsjuUpSMH/AkH8debxkbOvdjMlxR/yKcDz5rTgf7muUxDF3Tz5Gn4WnxsDqreH4YynYXEC7iPALRW6ZRG71pNvTV5m1CNIfZaB2hQb2f3yrH+qdA1+UZpjrJaFCaSy2y/CmKUkqyASO5Pr7g1VdYLpl077QMC4fYC7SraW1FeKc++VBRcyojAUA4cDP3fnqf1ZlxYX2p7OcdJLCWoyTt53bnSB+axrVHPUXBzk3YT4j7CYqo4QPgA6wG24Uy47OgqhqaNP8SSjIS62rYgp8ipIHKh68cd86EbAS7RbrqdrvkhmoM+2xirycBCXAPx8NX9dOHqX1FsG0/Z2ZdTgzZCpjbEmMw/vcjtE4W6UpBPu/unBPlpbdTKrbdWp1Dv+0WZSqfSqqmNInKYLTTzTv7NxKQo7jtJBJwB886XqMQqK6jMU0ZF9Wn+4ajz2XsNDT0tSJYX9jh2H6bqS5IO7kEEdx6H01motxKLFWdxgJdw6P5u/wDtbtZr2mf0sTXjiFqZhY8tPBDFNdXTuil51FHD81TVPaPn72Ekf+5rpSzWYlt2JTYyWVH2KnoBATjBCM/jzrnSqM7Ok1CpqR/3pczSVD1AX/8A4Gn71HoMq4emVwUenJCJTkFQYTvAUtacKCAAe524x89KvikqHyOGzpSCexoA9yiwSRxNbmOoZcDvJPsEjp12UulVxdUuS7VvOBtW2AwkOLU4v4ipKCe2SBuOheuda3W2xHtmgMRGkDa2/PUFqA7Da2ngfiTpXR6fMdmmnx4MlcwqKfZkMq8TPmNoGc6+s0erSqgKfFpk16Yo4DDcZRXnt8IGddo2mjYLErnjUucbgKRct4XNcSiqtVydKbXyWEr8JkfyJwPy1TU+DNmOBmBDcdUDuAaaK1A+vGnFD+zzczNPenXVW6FbiG2UvlEqUHHPDwSs7U8hSfTzPGr+17kte3KhDpXSq1Ut3JLkIhwqzVnQtbnHvrUk+63n0HYZ8+NDdIxrC5mw1J4DvKyXEODXbnYcUhpNt11px5p6kzg5H/z6SwrLXGfeGPd4OedU6m1AEkdtdFOdbep1Ln1W3qhU2Xqk1I8J54ttL8Lwyd4Hu7VoI4JV5Yxg6LJdEofWHpmlTDlqxLrQ4p1DkKIG1ySlI3pKVbcEnblYykkcayXOyCQgFp4g38dl6JWZyw3BHNckMM+K+21vQ3vWE71nCU5OMk+QGi6uUie7RIDsiCiGiDGfbddDS8ZbcISncSc796ceRzkcauqP0P6mVWQ+0xa0xgMubFrlAMpHfnKuCnjkjOOPXVLdtPvOhtMW9c7dUjxobqvZ2ZJV4YVgcozwoYIxjIAPGM6XkjdJI3oyNCmmSNY05gdVUwP2DDj4SSpCfdAGSVHgAfiddifZ/wClX6t2E0mekt1OpBMiaQnJUruls/wpz+KsnyGkV9m6yzePUGG28lAp9MBqExa/hGw4bB+qzn+U67DFQorqxS4F5U52puN5jthaSlSh37E8fmPx0Wtl64Y07apIx5oyHbO7bX7FvqaaPQbWlTKqxHXGprS5imxwgFtBPP73bz8zrgegLXcV9rqNTwtCnnJ0wnttBLqx/ca6A+0zctVoVrVC25i0+1yy204tCiQtsnefyTj8dc80pSqbY1VqQ4fnLTCaPmR8bh/oEj+bTdDCYyXl176pCd4MORjcpvl7eXyXQfQG34FYtOrXpdFuRKy9U5DpZVJCF7GG+MJSvgAqBGR5JGiKZYXTwuQzBivUuSU+I+7TpD8cp93zA4TlR4yB2OvVg1G3jYtCo1u3HHlMojssqZQ+2pQG3c4Ck+8kk7uPU6v5VQkMuzJrgb8DJzuWUKCEA5OcEYzuOvxbEsdrjXSSskc0kmwBI02Gi/SKLB6YU7I3NBAA4Arny+PAau+v2g7VX63So1OVKZkyylx6K6G94AcAyecJI893qNLzpRQnbiv2m0pkZU/JHl2Cec/4ijU+oVhydR7out8kP1yoeA1nv4efEV/QBtOrbobUnbURV7zYZadnwo6Y9NadGUrlOnIyOMgDaT9NfsDenbQRtkN5Mup7bLhIGRCslMYszNoOGn38l15dzZpvUjpxSIkqKzFSZiFNLzvUlMbakDkDnsPnpQdXr5FK+0nSleybmaM4xHWfHA3eIUlR9B8fno4vq66JIu3p5fYjxno7VHn1ELcwkgFgKSjcR7p3ZA9DpIVHqdTajZd202qUhS6rcE0TDJS6keCpKklAwRk4wR+OuToqQuIflvpY+JN/JdHLIQLXtxV59oWoVuNfFzW3Hn+HSX5rUxbfhg/tS2jHPfyGq37QFQTE+0UxJZKVu01EQDenjejYrn5cajVGpu31GF0PpSh5SWo8oBW472kJQVH03BO7Hz1b3X+g651fq1zS2WKtBdhrlwY24lMsAJQ2SB7ymsnJA74I9dU6HJAbPHwtIPfovK2F8jGlvGx9Vc/bXiU16n0aoQ4sQSf0k9FkPIaSHHCG0KSFKAyoAHz9dEPV66rNrNo1mw4sxJqf6PWENtN5bQ42lKkgbfU5HbjBzjz5yud67JtUkSq3JlPMvyTIcbcaUltDh4Cwn4UHCQn6ADyGnLX+ntm0l5296lVfZoacpVuJUp9wpCglKc5PxYwDnCSe/OlJoIIG07JHElpNrc7g2WYzK/pXNFrjW/KygSJxqVrW/VycqkwxvPzwlX91K1mqq11FfSelA8mNKWzn5BTqf+UazQ8NGSIx/wAXOHkSmqmz3B/MA+YUq7i1+oNlpfU6lgVxZdLXxhOHc7fn6fPX2JLseQlbcah309KSv9i7IqDcdBGPXGEk+nOo15ftelVEeGP8lroCsjI97eOf8Y0slXBT5TaVTKFTlutgBIaDiQojzLaV7fx41e/451qeUXP7j+PcubxqMmWMgf0N9097d6mVe1Zi3DYzLRUPdlS5y3JCEY4HjKBTzk8AJGodzdZK1LkNqbuFuFIdebQ4uOCtiKgqAK1rSlPihIJOMkceedJ2m3vXaYvDFQfgRD/9pH2pSoYPHhYKfxXuP11ugyatfFxR6FTafFYkSiVKccSSGkAe+6rGBgDn4Rk4A76q1LKaKN8slm2B13t26qdCyqe9sbdRcaDRXF902vovVVLU3OuedOCXo86O0tYntkAhQPO0DsoA8Ed8Y1cWr05r9Iu6jXBeFXtygx4UluSYsqrIbfKUHKUgJBCecZ5yRnnnRHZTV0Xa6npj0inPQbfoyfCqlyyCVEEklSWscAk5wE/gQBk/L/idAekFTNFq9vVHqHdIAXNdmSifDJ59/naCe+3BPqdccK7E8QpuicQ1pFtrucOdrgNuNbaldS2go6SbO0EkG++g7L8bIPu/pjcVQrFYrNqzaPX6fKlOSAzAqaXZASpW4hWQN3JPAPp30PWZbc/2SuVqozBbMejtY8afEUS5I5KWQlWMnjk84yODnXQPSu2uhPWGmyJloUGZZ1wQAku/o+SqPJjZ+FacEocRkeY+RxoR6+0iRQKbHt3qZPmvJaf8eiXDCieImXgYW28zuCUuhJ5wQDkKSeCNYFZidK1tOHZm6C4b1mju1B9uRW3UlHMXSEWOptfQnv4JdW71c6hUqe1Uf1knvqATujSHAtgoA5SpBG1I5wAAOefLTEZ6o9OK9QJUGtWu84644JCIMmYr2RLySMhlXKmgrJ4ztJ7440pnah04SAnw7rmJT+6iNHSfnypZ1OpJt+qp/wCwumt11dA4JbqSlj8S0x+WddO+ohO0bvK3qQoLaWW+4Hjf0umBS2rTj2/Vqfad2qt81GSlx2nVFCi6oNoO1rx28pU2FFZBOMkgHQpbtyyLarrLjlHp1bZjryplKPFCsJ93CwMNgHByPe4POocmtM2uCp7pPLpJPZc2ZMR+akJGdSaV1NqvhZpVpy3G+Qot1Soup+YOF4P01ttaWsLWxuIPa31zIL8Pc+TM9wuO/wBLJv3wuj9fLNjOREy6dc8CPllDiS3CdUSCtHiqGOAODkd8c6Tt/WfUrVTbMO5aRNbo8d0+3FofGS9+02rHBJQE7SDyCMakVK961VABO6auSsDaCtdQPHp8WNTGuqlwUejOQ5Ngvpo2zw3Y02VNXGIJ7FLuUjn6H00GOpfE0tZGbHhduncc3siupXyPa97hdvfrpbXRV8L/AKq5xmBLVIp6HZTWwrDof2I2+J4e4AtApClJUFfENqkncnG++KXGptiTZtKverexriRWE0xqpGQ25JW6tL4WSTtaAQoJSOVbSe3cRmXNY015S3unqo+77sSuOoA+gU2rWyk1XptClolPWhcoAIUlBqbTrRPkSC0ncPlnnSb4mF4L43W7Q0+5VITPDDlIv2Ej6KtvJPsdKodBB2qajB98ejjx3H+idmi22F1Sh21QqlDpEeYtS3ZqBM2FkrXlA3JURv2oxgds/wBNUFWkWBW6i/UJNbuyM++SVlynR3k5PHGx1OB8saPaNfFEbpyaIu8qTOoiMBmnViiSGwyMj4HGwpSFHHJCvPtqm7EKd5Ika622rXbeVlKbR1EUbQwjNqTqN/PtQ4zUr0qDcakS48SZSWgEIgpcaQhpBVuIQQcp557kE9wddOsSKbTOkrTtK6dsONLT4fsUhuOd3HKnHSohWeeeT8hpEsNW69KS7Q6/Qtuf8x+k21n6J8Usq/qNMmo3HUW+nSKei3arMIcyfBSlSAnHcqb8Xj8c6iYvT0dU+JtNIAL6i9vMXCp4fV1ETH/iWHQaG10pIblQt6sVN+Fb7LMCpNqQqnuTEKQzngEL3ZynJx8jgnV3ZtsW6/HjoqLtS8YM+GVpkNueGT+6ErKtv8IHfQ3WqvbiFkyxU1SfOIhLbeOf3nAD/s6vOnFaocKvRKil6RGLSj7kqMhrb58O7th+vGq1fhTDATA8h1uHGw5oNBjcglAmZ1eF+Hgot70CwWXnUMVOfJG4gjeGzjng7z9Pz0vK5VqquBFoPt6H6ZFfU60246CvcsgknnJ7AD5AaMLyfoj0+TLenvyQtwkop8ZLo5Pffu2/mdC9UkwqrUGpDb6W/ebT4b7SkLOMD0KT/XRKLDeiDczy4768CvqzFRPmysAG2nEdqZVpEf8AVZnyNUd2/TxndZrVb6/C6VUtR4MmUt4D5FTqv+YazUDDWB/Su5vf6qnUydH0beTW+imVtpT/AEgrzKQSuE+zPSB3whSSfyQdLqZU6a/47SmmKc4lRCW23/cd+oSAoZ47k6dFBiNSI8qnPgeDPiuR3M/Mf/GdI60WTSa/VKvJaS5KoFOcfShYyPa0LDDZIPoshf4DXuDYh+DNSLX1DgOd9PUBAxLDxVdAb20Ivytr6KfPpdKt1sKumYY0paQ4mj0lpPtYBGR4zy8hjI+6dy/4Rq2pUxuL04qtatyiN0up3LNaoFMaQ+t1wJz76y4vkrUonJGB7qcAY0K0e6LQhW9NiXFZLlfrEmSp41Bc1bSznH3gcg5yTwc500aHVaBVaj0oqdJpLdJoaLs2exjs05nAzye6hnOec6SxWaomlZDOHavsdgyw1sADxtudU5h8MUTHSREaN0/lyuT9F1R09taldJ+lDdKhtoKKXCXJlugYL7yUbnHD9SMD0AA8tfmpW6pJrlanVyoOlcqe+uS8tR7qWSfyzj8Nfpp1Dkmd0/uSEykl5+kym0Ad9xZXjXBvTeFSLeaj1hfgVGs+H4kdbre6NBATkuBKh+1cT6qG1JxgKVgi1hsT5XOIFyp9fOyBgLjomZ9jmwOoVE6iQLwkUR2DQZMR5l0ynUsuPtqTlBQ0o7lDcEnJAGuhftKUGHeHQ+5Y62x7TT4ypzG8YU08yN/5pyPmFa5gsv2+++q9KocmozG5tQZemPTlLLjsdKEFSDknJUSBnkAZwBronrbWBZvQS7ZE+pLmz5kFcfx1pCfEedQGkhKfIAc4yTwTr6vhEMw613crIdBUPnZcss3gb3Sd+yN0MptzUpq/bzi+109xZFMp7nwPBJwXXB95OQQlPY4JORjXnrn9patUe5pNpdMW4FMptLcMdcsRkq8RaThQbR8KUA8ZxzjXTHT5DFP6V0CBS0pDbNEjoj7fM+ACD+JOvzCdU6p91T2fFLii5nvuyc/nnQ4r1Ehc/YJp/wCkwBq6y6EfaOqlz1B6zOpCoDyZ8d1ESoFtLSfE2E7HUn3cHHB454PfUX/o+alU3Lmuele3Pmltwm3xG3nw0vF3bvA8iUjBx349NcsMR3pb6I0dhyQ86rahptBWpZ9AByTrqf8A6PNsIqd5yiOzERofip0/8NbnibHG7LxssxPL3C6Ivtc9ZL+6edQ6fRrUqkeNEfpiZDiHYiXTvLi05yfkkaBrl65VK+fs+3TbV8CPBuENxJEBYbLIqDCnknKUHuQBnjgjkdtMD7Sd49GqV1NiROoVgzq9Um4DS0y2nTsSyVKISUb07sHccY5zpDfa2qtIrHVxFQoTsddMcosExizgIS2W8pSAPhwCBt8u2gwNa7KMtjzRJCRc3SqLhx31+hn2S6dWWehdEF0L9ockb3oTb6QpbUQkeEnnyxyPQKA1xN0MshzqF1MpdvKSr2Hf7RUFj7kZGCv8VcJHzVrrqtVm/GftP0AU+0qyiyKfENKU+1GPs5DqQS7xxtQpLac+QSdFrpM9mDvQ6ZmXrJE/bdtP9W+rqazFZDcKvRUyE7U4SHm8IcA/AIV/NpV9NqhEhX1SDPo1PrMORKbjPxJre9C0OLSkkYIwoZyD5a7Q+2na6bn6NyKnHa3zaA8mc2RyS18Lw/wkK/k1xJ08a8bqHbTPffV4if8A3kaJTzF0FjwWZIw2QFdv9TPs0dPqxatRbtShs0au+ETCeRIdLXiA5CVIUop2q+EnHGc+WuIKfvt26PY64KvShEkqanogLDUpopJCgnOBuB9e/wCOu8a31cZtv7SAsCtvIbpVVpsdyC+s4DMoqcGwn91YAA9FAeull9tvpOmownepVuxv8rjNhNaZbTy60BhL+PVPZX8OD906VgmPwS6g80aSMfEzcKj6m2fXLEsCJdyer7Nao0xpC4EKvUwSFSitG9Lad2/kp+gHqNJ2LeVvzVg1i0m4jp7yaHLXGUPn4Lm9s/QbdOT7URDn2XulSgeyYo//AGZ1y+0e2jUdMxzS4Xab/wBJt6aHxQamQ3sRfv1TFfocepw36haVUjVbwEF1+I/D8Ge0jzWUZIcSPNTZOO5A0MNz3lP+K5PcfDSFLCMlSfdBx3AxzjUSkT5lMnR6jAfWxMiuB1h1JwUrHIP/AAI8xo2m0iLN6sNRoUdLUOqCNPDSRhLTbiEvupA8hkED6jTb66SjcWzuzDKXA8eruDbTuKWbRx1ABjFjcAjv4hHFebNKtq3qQo4WxEBWPQhKU/3SrWareoU/xrikgKylgBkfVI97/aKtZqbhDDHRszbnU+OvumsRIfUuI2GnlomNSiQhK0fEnCh9Rpc31RRG6g1eLGThi6qM6Y2PvSm9ju36q8MfirRnR5g2DnUe/KbIrVsl2lq21mjvJn05Y77knO0fXlP4p1Aqg6JzZh3HzBB8HAKxDZ4MZ7x7+YuubZGFDI8+dMPpS1MuKza3akcOsy4bzdVpcsJOxiQkgBKldklRSMZ7+96aGr3ix1vs12ltbKZV0qfZQOzDuf2rB9ChR/wlJ1b3DfMCm0qNROnMaRRoy2UqqUpxOZEp0AYyok/CckYwBnjV7FXvrqeMQNJc4gg8Gkb39LcVMoGtppXGV2g0PMg8vVdh9IuqcS+KGEuMtxbghjwqtTXRhxl0cKVt7lCjyCPXGueeqPSa6rdrFRNsUaZWKNOWox3IifFcjoUc+CtA94BOSAoDBGOc8aUdevS4KxUodWcVGh1WKkJFRgoUxIcwMe8pKsH+n5cavY3W/qzGYDKLwkrAGAp2O0tf+IpzpqiNTTjPYAncbhCqmwT9Um44LofoHZ0mx2J9/XyGKRLVE9mYTJcSkxWCQpanDnAUogYT3ABzycaSn2mOrx6jVhik0Zbgt2nrKm1KG0y3e3iEeSQOEg+pPnqosNm4es3UaBQbuu6ovR1pcecUte7CEDJDaPhCj6445PlrR1ZtSmWsw5G/Vi4aDUG55aYVMkiVGmxsK/aIcShICwQklOTwr5HS0tdGa3JKbvOv0+/NFjpyyD9MdUJ5fZm680dq2IFm3dUUU6bT0BiFMfVtZfaHwIUrslaRxzwQB56zqP8AZ4t667hk3Ha12Q6UzOdL78dSEvsBajlSm1IWMAnJ2nIBPBxxoDm9O7Vj9ObPuSm2PWa/KrTBdnMIqzjbcVKUblLKwghKTg8q4+ulFFpkK4b/AGqNaTUluBUaghqAzJWdyG1qGAsg/dGcn0GdLU1dFM5z4rgC9724Gx4+qLJA5gAfrddIUqD0g6DU+VU5VwJuO7lx3Go5a2KcaKkEfs20khsHPK1EnHAx21v+xsIFnWfVKpXa/RIb1adZcYYXUWg4lpCVe8sbvdJKzgHnA5xnSy+0J0/syjWtbt49PGv+xJynIz6w8twKcBOxeVEkZ2rGPkNbulVmW5W+hVcuT9SI9fuSnzvAiteM+PaEktn3koWMkBau2Ow0B2KRGlFRqQ45eFwb2110RG0zhL0fIXTK66dPrb6mXw3cjHVK2qaEwm4pYcdQ6coKjuyHBwd3b5apIfTjpx01suv3Mu7KXdNwN095uAguMhlt5adiShrcoqXlXBUeO+PPSWui34lV6l021qLa7NAqS3GoM2Cl9T7LcnedywtRKtu0gkE8YV9dGv2hLBsmn2db17dO4yE0eU65ElKQ4paVLCiEr94kpyULGM+mifmDA6KJxIz7e1+/hzWOgNnPA2TV6E2+10x6V1+psVKiTb3nw1rRGZqLKy3sSfCYCt2CrdlSscZwPLSEpnV7rJImsw4F711+Y8sNtNBaVFaycBIBHroh6XWZZ9X6GXFdc+0lVatUiUWmG2pT6PaAfDIBSg9xvPwjyGqz7Q1lWxZsi3nbfEmK7UoPtMylSZHiuRFYScFXxAHJGDz7pxryLEoJKl1O4HNcjxAvz5L11O9sYeNl3JDlmq221ErTTK1yoSWp7CHAtO5bYDqAQcHkqGuJLN6dXFQvtGUe2HKVLcNPq7MnxQ0ShURDm5L+7GNhSO/rx340S3ZYtlW5S7Uqce3bwlxqvT/bp7tPq5AgIS2haz7zZBwFKICiM7cdzqg6CUCNeV41+m/rfdMFEOMt6HNhTihTrKXcBK0qGechXlg540OHFYRC+YXyjfTtt6rT6Vxe1p3Kvftwxpg6swastl1EeVSmkMvYIBW2te4A/vDKT68g6dX2ZurIv+zVUSuuodr1NZDUsOAH2tgjaHceeR7qx68+ekBf8Gq1TodEvKFfdyVKhuzgw9TK2pK1pcCykLQtJIVgjyxwfkRpW2hcVYtS4YteoUpUabFVlKsZSpJ7oUPNJHBGqFNJHWQ9T+kkeI4JeUOhf1uK6r+2nHiQuj1t02AwliJBqjbMdpJOG0BhwJSM+gGuR2jyNOzqj1rofUjpmuh1eiz6XWmXm5UdyOUuxluJyCDkhSUlKleuOO+koynVGiaWtsUpUEHVWVPivzZTMOMgrfkOJZaSPNSjgD+p05LOaYVdtxXSnDkOmtopUBWOFhhCUKI+qkpH4nS8s2NJgxP01Hb31GS4YFFa81yVDC3f9VpJJz+8R6aa4p0ehWxCoEQ5bjIBcV5rX3yfqSVfzD01Cxqb8XUtpWdx7tC70A7yVTw2P8PA6d3h6D3PkgSuOL3rUtRUtRJUT5k9zrNebjOCrWausbZtgpjjcopplUCQPe1eQa77NIbfBKgk+8kH4knuPr6fMDSvYqBR946loqxwBu1I/DtkaWPGhT/SlpDm7hWt/wBJg0WpPGRu/VK4Vh/x2kbv0fMwSHkpH3SMkp8xuHdI0tLjos6h1D2SahHvJDjLzatzT7Z7ONqHCkn1/A4Om/adXplYhP2lX074U73WV5wW3CcjBPY5wUnyV8lHQJcH6f6fzHrcqsOJWqLkuoiy2yWlIJx4zKh7zRPZQSfdVkEdtAwyeale6nOpHD+Q/kO0bOHii1kUc7RLsDx5Hkezl5IaZq6WQNtEoi/m5FKz+atSEXTKbPuUK2B9aM0r++db/wBL9OpH7R6hXNCX5txp7TqPwK07sfXOtTtx2fGyKfZb0s+S6nU1q/2Ggkfnqg+WGT/xOJ++2yUbHI3+sW++xfLWqFNXdj1SrVRfoS1tOKizaYyW0xJOB4a9jeCEDnIT66NeonU9Fa6VMWfMr6Lnq65aXnZ6IqmW2kIOUj3gkrX5EhI4PnoGN8zWzin27a0D0LdKQ4ofzOlR1KYvG+ZAwxckCGD5NriRgP6AanVVJ00zJnMtlta5Glu4E+F03DN0cbow6999P8o5qV5UGo2PadvQq7c0F2hN7HXoVKKvHBRtUACscd++R8tUNqTKdbtz1uu0Oh3EypMZyPQEmmF7wSpvZ4zu44KsZ4GRlR9Ma8UyXdkwp9u6kuNA9w1cUVH93hp2dCLKZnSl3FVLprVbRFX4bLDtbblR/ExncoMrUCQMYSo45zg6jVMkNBC/Mbg3uL73N/4j/SejDqh7bbjs5DvS1i3zKqnSOdZd227cEp99xTkZ6BR0NNxiCFN4SkJBwoEngcKI1VW7XDTOjNYsV+3boMupvF9UlqD+zbXlG1IBOSPcGT8zjtrpa6urdMolfqFBpdAq1wyqSx41TMJbaG4icZwStQ3Kx91OhLrJ1bqTNpWpWrMlOU6iVxajLrK4XjqhAEDZ4ZyAv4j89uBpGCeSWzBT5WvcHDraXGvLTa9uKK9rWXJkuWi23BIGwKhUreq1TuGo0i5JNeciOMwJCYPiJYdWjb4q9/xEDgDHYk/LRPDv6VP6V1GzLyodfluylqUy9EpTbTcbGFIwlISCQoEngdyNNChXxd0fp1e1c/Xuh3TCp8AuUypRmg1LZfOAEvMFICRzkbs8jzB4Cr16t9SKZa9lvU+uEzplFdqdSV7K0S6PGUEkgpwkBCfLGnnF9XLbo23BFjmIsWi4t1dO7mgtyws+I2seHM25oXsW9k2n0pq9ssM3JDrM58yW5ceGQhhwbNgB3BRHucnH3jwfOv6z3VQb8ZpteRAqFOuIMJYqCVQ8MujHxBYOcpOcccg48hpndWur11/r9S6VZ1TMOngQ2pagyhze/IwvblQOMIIHHz0X/aMiyzZM+uUeqTabUqWPGDkd4oDzYUApC09jwcg4yCPQ6XFS2CqimkjyvlJN83OwsdNjojdEZIXsa64aOXjpqlJd9/2vcFJtykxb5q9EjU2AqBNSKa4oSm1IShXuhW3sk43ZxnVd0Luq0rSve4qo5VkwKc+yqLT0OocccUguApUrCTjASM58z20DDqDeoyF1558eYfYadz/iQdff17rbn+mQLem+vj0aPk/ilIOrH5Q4QPgt1Xdo53/iPmkvxrTI2S+o7PDmmDfVzUi++lFPZl16DDr9DdWlUUL8FiakEgrQgAJyoYUk4BzuHGdLum3AqJAahqoNvSktggOSaeFuqyc+8sEE62C7KY8f8usS3nPUxi/GP+ysj8tb2qxYD4/ym2q9BV6xKmh1P9HEZ/PTlHAykjMTo3Ft78NL9xugTyOmcHtcL2tx9woy6zFeJ32vQU/+k083/Z3UqhUhuquv1GSEUqixMGZITuUlv0QjcSVOK7BOfmcAa9CsWBE/aRbfr1Ud+63OmoaaJ+YaTuP0yNFdn0io3tIRUriRHgW1TCoohsJ8GMkjktpA7+W9Zyfu5yeGZ61tPCXsaWjmfQC5uTwQYqUyyBryCeQ9zwCIrEjB0C850JMOMhj2ShQCeGI/PJPmpfJKvMbj5jVhVZ/iJUpS9ylElR9T56pbhuUVCcPAHhw2RsYRjHH7xA7E4HHkAB5aqZFSKkkbtKYZTObeaQdZ3DkOA9zzKYrZwbRsPVHzPP6dii19wKKudZqtqL/iE6zV0HRSiNVXqdUDr4JCh56x9GNRl6VaRZHIKmokqz3OmhblVpV/0NFp3O8Wai3zT5/BXvxgd+6scFJ4WP4gDpQhWPPW9h8pIIVgg5BGka2m6YBzTlc3UEbgpmml6MkEXB3HNar5s6p2zV3IU2OELCfETsyUON5/zjZ80eo7pPB0NbM9hnT/ALavCjXTSEWvfiSsbv8AJKmFbXGV9goq+6ry3diOFA99Cl+WLXLGdmPNpYk06oMKipnJR+wWleCAoA/snOBjOUk8pPlotDiYnd0E4yy/J3a36LFTSGIdJGbs+Y7/AKpWo3NqyPdUPUf/ADqzg1ubFVkLyB5JbbH90HViu56yw8vxm4/tHtbUtTjrOXA42gISMk/DtyCnsdx1Ap9ZmQ23UNhpZdkNySpxJJ3oORnnChz2OR5jB51SfEHaOak2yW1aUSUzqFIhlIcZnqKf/LkR0f3jnTV6S9d6LT5a6bcDFUjRJCgpMx51t9LS8YA2tNIISR54Ucj00lxeNYHibW4fvykSgVMblJcRswQpRJx7ic5Jz5514XdtUW6hxTERJQ888A22WwC6gIUBtI2jAGMYI8jqTWYHS1bCx7bX4gpyDEJYXBwKbV2xrIlXxW7go179PZrFaX4ziK7DdeXDX95TWE4P0P49s6u6zcVGp8Khosjq9bMRFPjFiXTJUdSKfMUSVKcLKEkJJKjxjyBznugGbgqTUBcIlDjKogiALBO1sO+KMc9934Y40S0W1Lr6ivyLgLFPg05lQEmpTXvZ4qMfdKlElR+mT5ZHGk5sIZExrpZuq3mBrpYX05JiOtL3EMZqeV0YxoNootS7m3OpdoorVylpK0xUOswo7aHQ4pKUhGeSOMDA/E6lym7Gk1OKqT1BttcGPaRobTaVu7vGLZBc+DG3con1+WoMu301VM6FT+qnTmTNqDja3GGwpjLiAkJ8NwjCThIHHB50FXc9edryanQLhp7MZ6oOmQ4pTCVbwSOWXBxs4x7vGCRoMNJHUPIZOcx1tYA7AaXA2ARHzmJtzHp496LqNTrOgwbZbe6iW6/Ig1g1Kpu73VeLgIS2hB2ZOEpPfHJ1adeerFIrFvv21bUkzRMIEuWlBS2GwQdiCQCokgZPYD66VZvKsF8vFqEHPamZQ2xwlIW0CE+6MDHvHIxzqvq9bmVSO0xKaYw0486koQUnc6vcrz8j2+Wm/wAgZJUMnmcXFuo2te9+AQvzMtidHGLXVOU+esCCQSAeO/y0SU27anARDRHjU7ESMuMjfFCt7a1BagvPxHcM57jPGoqLgqgQlHjAoTGajbSOC22sLSDjucgZJ7jV4A8lMuOapQjJwOTr6hlS1BKUlSlHAAHJOi2n3RXnW2mUCJ7Mwl1tO9nalHihSVe8OSffOBye2Bo7szptDp0H9P3qoU6noSCIrhKHn+OAsfE2k/uD31ee0aBVVMNHH0k5tyHE9wRIYXzuyR6+g70O9MOnb1bWapUHDEpLJJdk7gnft+JDZPGR95zsnyyrRNetxx347dFojaYtHjAIQhsbQ4E9uO4SO4B5J948njXed7LrCU0+ntCDSGQENR0JCdyU/DkDgAeSRwPmedBkiRu89c6DNWzCacWA+FvLtPM+irdSnjMcZuTuefYOxenJJCjzrWZJPc6iLcydfEHJ1cY6wU5wUkqKtZr6yknWay6cA2Xoiutj6ODqA+MZ1ZL94cahSEd9BhkutyNVepWDrA789fXUEE6jkEaby3Qc1lOafx56YXT3qVUbfZ/Rk9pNVorgKHIj4CtqT3Cd2Rj+E5H00sEEg6lx1kY50jV0Mc7Mrxf74JiGpdGbtKdFU6cWxesFdR6fTo4WBuco8two8M+YbWcqa+ityPmNKWtWxVbdqSoU+llqV3EWoM7VkeqCDtcHzSTqfRp0iHKbkxJDrD7ZyhxtZSpJ+RGmzRepS59MFIvGkQrhp6viD7ad4+fIwT8xg/PSzK2tohkkHSs8njx2PiiOpqeoOZhyO82nw4JD/pP2ZzY7b9GCx3S7EVn/AH9bkXE2nn9WLaV/rQVH/n085lg9Nrma/wDpy5HqE+rtBqSPHYB9E7yFJ/lWfpoTr/Qa74iS7DpsaqNd0uUuaCSP/Te2n+hOnYcTwuoNi/I7k67T9EtJS1sQvluOYsUvTdKC0psWlaY3JKdwpytwz5g7++rPpnWJjtXp9BfoxulsKUmk0qZLKYjUpZB8VaOygMEkHA89RKxYtfpRPt9Kq8EDuZVNeQP8SQpP56gUct0moiRKktFgtuMu+C6A6lK0FJUkHHvDOQPlp2ajikgcI7HuN/Q38kuyoe2QZtO8W9k8bzn3HRKyLauJqx7kcVGMh6hsUdLKS0ElSksvJ95KwASncATtOM+aOmXG/Iq0eQWvbKbCLiadT6k4qU1HZUSQ3yQSBkenIGjJVx0CJSaPUkzID90RJTzr1RiyHEvTEEEIQ4lQAG7dhRV2SCBkq0BxqQ8+4ENyI7qz91nc4f6ISdT8IogA5zm24X211uQL6acd+aarqg6AHt5/forFy6UL72laaf8AVpyh/wD2ajOV9tf/AOm7dT/qw1D/AJ9X9G6Y3ZVMGLb1beQey/Yiw3/jeKRo1pfRCdGZTJuGo0eiMjlRdd9qd/oNrYP4nTU82G0v7sgHZck+QJQY2Vc3wMJ8LeqVDch2YFFmh0oJHxLRHKUp+pKsDRNZfTiuXQ4mRDhI9kUrmU5uaiJ/1VfE6fkgH6jTJQ10ytYJXGhyLoqDXKHppCmUH+FGA2n8EqPz0L3x1EuGtoWx7V7FFI2+DGJTlPoVdyPlwPlpA4u+Xq0Mdv7n+zd/NNChDetUv8G+5V2qXY3TRI9mUm4bjaBCXNoS3GV/ABlLX1G5Z9RpbXRdtWuOf7XU5JXgnw2k8NtA+SR/x7nzOqGUoknHbUXcrWocO6/TTOL3nifbkF9JVAN6OMZW8h781Ze1HHfXkvk6ggnW1AJ050ACB0t1KSok6lMjPlqKygk6nsowBxocjsoW26qQ0MDWa8LWEjWanveSU01osvDDwUNblIChrNZr2MkFZeFGej58tQ3o+PLWazVWFxKRkCjqbwe2vaCQdZrNMkXQlNjukHOdWsSZtxzrNZpWVjSjMcVaMVLCcE5zq1plz1OnHNPqUqL8mnikf07azWanS00T9HC6aZK9uxRRTOq94RQEpqiX0jyeaSc/iMHVqjq3W3v9MpdFlZ7+JHJz/UnWazUyTC6XcMt3aeiabVzHQuuvquqEoDKbYt1J8iIuo0jq9c6ElMVmmRf/AEmD/wDlrNZrDcMpnHVt/E/VaNXKNj8ghuq9RrtmlXjVp9APcMgN/mBn89DMyqvyHC7IfdfcP3nFlR/qdZrNUIaKCP4GAeCA+olf8TrqtlTcg86p5j27POs1mqcMbRslJHFVrvvHXgIye2s1mn2jRK3W5tkny1Kaj+eNZrNCkNltg1UptkDy1sUQkazWalTOJKdjAUOS+ADzrNZrNLWRl//Z", alt:"OCEAN Seafarer eSIM", style:{width:36,height:36,borderRadius:"50%",objectFit:"cover",display:"block"} }),
-          h("div", { key:2 }, [
-            h("div", { key:1, style:{fontWeight:800,fontSize:14} }, "OCEAN"),
-            h("div", { key:2, style:{fontWeight:700,fontSize:10,letterSpacing:"0.14em",color:"rgba(15,32,64,.6)"} }, "SEAFARER eSIM"),
-          ]),
-        ]),
-        h("a", { key:2, href: waLink(), target:"_blank", rel:"noopener", className:"btn",
-          style:{background:"var(--teal)",color:"#fff",height:36,padding:"0 16px",fontSize:13} },
-          [h(MessageCircle,{key:1,size:16}), "WhatsApp Us"])
-      ])
-    ),
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                        <a href="#ports" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-center px-6 py-3 rounded-xl shadow-lg shadow-amber-500/20 flex items-center justify-center space-x-2 transition">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span>Find Your Port Plan</span>
+                        </a>
+                        <a href="https://wa.me/917506178946" target="_blank" class="border border-slate-700 hover:bg-navy-800 text-white font-semibold text-center px-6 py-3 rounded-xl flex items-center justify-center space-x-2 transition">
+                            <i class="fa-brands fa-whatsapp text-mint-400 text-lg"></i>
+                            <span>Get Plans via WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
 
-    /* HERO */
-    h("section", { key:"hero", style:{position:"relative",overflow:"hidden",background:"linear-gradient(180deg,#0F2040,#122A52)"} }, [
-      h("div", { key:"wave", style:{position:"absolute",bottom:0,left:0,right:0} },
-        h("svg", { viewBox:"0 0 1440 120", style:{width:"100%",height:80}, },
-          h("path", { d:"M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z", fill:"#F8FAFB" }))
-      ),
-      h("div", { key:"content", className:"wrap", style:{position:"relative",padding:"56px 20px 110px",color:"#fff"} }, [
-        h("div", { key:1, style:{display:"inline-flex",alignItems:"center",gap:8,borderRadius:999,background:"rgba(255,255,255,.1)",border:"1px solid rgba(255,255,255,.1)",padding:"4px 12px",fontSize:11,fontWeight:700} },
-          "LIVE: 80+ SEAFARER FAMILIES TRUST US • 2 DAILY SALES"),
-        h("h1", { key:2, style:{marginTop:20,fontSize:"clamp(32px,5vw,52px)",lineHeight:.98,letterSpacing:"-0.02em",fontWeight:800} }, [
-          "OCEAN Seafarer eSIM", h("br",{key:1}),
-          h("span",{key:2,style:{color:"rgba(255,255,255,.7)",fontWeight:500}}, "Stay Connected at Sea."), h("br",{key:3}),
-          h("span",{key:4,style:{color:"var(--teal)"}}, "From Ship to Shore.")
-        ]),
-        h("p", { key:3, style:{marginTop:18,fontSize:16,lineHeight:1.6,color:"rgba(255,255,255,.7)",maxWidth:520} }, [
-          "My Father Sailed For Months Without a Call.", h("br",{key:1}),
-          "I Built This So Yours Doesn't Have To."
-        ]),
-        h("div", { key:4, style:{marginTop:24,display:"flex",flexWrap:"wrap",gap:12} }, [
-          h("a", { key:1, href:waLink(), target:"_blank", rel:"noopener", className:"btn",
-            style:{background:"var(--teal)",color:"#fff",height:48,padding:"0 24px",fontSize:15} },
-            [h(MessageCircle,{key:1,size:18}), "WhatsApp +91 75061 78946"]),
-          h("a", { key:2, href:"#plans", className:"btn",
-            style:{background:"#fff",color:"var(--navy)",height:48,padding:"0 24px",fontSize:15} },
-            ["View Plans", h(ArrowUpRight,{key:1,size:16})]),
-        ]),
-        h("div", { key:5, style:{marginTop:32,display:"grid",gridTemplateColumns:"repeat(3,1fr)",maxWidth:420,gap:16,borderTop:"1px solid rgba(255,255,255,.1)",paddingTop:20} }, [
-          h("div",{key:1},[h("div",{key:1,style:{fontSize:22,fontWeight:800}},"190+"),h("div",{key:2,style:{fontSize:11,color:"rgba(255,255,255,.6)",marginTop:4}},"Countries covered")]),
-          h("div",{key:2},[h("div",{key:1,style:{fontSize:22,fontWeight:800}},"5 min"),h("div",{key:2,style:{fontSize:11,color:"rgba(255,255,255,.6)",marginTop:4}},"Avg QR delivery")]),
-          h("div",{key:3},[h("div",{key:1,style:{fontSize:22,fontWeight:800}},"0 Roaming"),h("div",{key:2,style:{fontSize:11,color:"rgba(255,255,255,.6)",marginTop:4}},"Pay for data only")]),
-        ])
-      ])
-    ]),
+                <!-- Right Hero: Founder Story Card -->
+                <div class="lg:col-span-5">
+                    <div class="glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl relative overflow-hidden">
+                        <div class="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-3 flex items-center justify-between">
+                            <span>OUR STORY, YOUR CONNECTION</span>
+                            <i class="fa-solid fa-heart text-rose-500"></i>
+                        </div>
 
-    /* PLANS */
-    h("section", { key:"plans", id:"plans", style:{background:"#fff",borderTop:"1px solid rgba(0,0,0,.06)",borderBottom:"1px solid rgba(0,0,0,.06)"} },
-      h("div", { className:"wrap", style:{padding:"56px 20px"} }, [
-        h("h2", { key:1, style:{fontSize:28,fontWeight:800,letterSpacing:"-0.02em"} }, "Popular Plans — Instant QR"),
-        h("div", { key:2, style:{marginTop:28,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:16} },
-          PLANS.map((p, i) => h("div", { key:i, style:{
-              borderRadius:19, padding:22, display:"flex", flexDirection:"column",
-              background: p.dark ? "var(--navy2)" : "#fff",
-              border: p.dark ? "1px solid var(--navy2)" : "1px solid rgba(0,0,0,.06)",
-              color: p.dark ? "#fff" : "var(--navy)"
-            }}, [
-            h("div", { key:1, style:{display:"flex",justifyContent:"space-between",alignItems:"center"} }, [
-              h("span",{key:1,style:{fontSize:10,fontWeight:700,letterSpacing:"0.1em",padding:"4px 10px",borderRadius:999,
-                background: p.dark ? "rgba(255,255,255,.1)" : "var(--navy)", color: p.dark ? "rgba(255,255,255,.8)" : "#fff"}}, p.tag),
-              h("span",{key:2,style:{fontSize:11,fontWeight:600,opacity:.7}}, p.save)
-            ]),
-            h("div", { key:2, style:{marginTop:16} }, [
-              h("div",{key:1,style:{fontSize:11,fontWeight:700,letterSpacing:"0.1em",opacity:.6}}, p.title.toUpperCase()),
-              h("div",{key:2,style:{marginTop:4,fontSize:22,fontWeight:800}}, p.data),
-              h("div",{key:3,style:{fontSize:12,marginTop:4,opacity:.7}}, p.sub),
-            ]),
-            h("div", { key:3, style:{marginTop:18,display:"flex",alignItems:"baseline",gap:10} }, [
-              h("div",{key:1,style:{fontSize:28,fontWeight:800,letterSpacing:"-0.02em"}}, p.price),
-              h("div",{key:2,style:{fontSize:12,opacity:.5,textDecoration:"line-through"}}, p.compare),
-            ]),
-            h("div", { key:4, style:{marginTop:8,fontSize:12.5,lineHeight:1.5,opacity:.75} }, p.desc),
-            h("div", { key:5, style:{marginTop:"auto",paddingTop:18} },
-              h("a", { href: waLink(p.title + " " + p.data + " " + p.price), target:"_blank", rel:"noopener",
-                className:"btn", style:{
-                  width:"100%", justifyContent:"center", height:42, borderRadius:999, fontSize:13,
-                  background: p.dark ? "var(--teal)" : "var(--navy)", color:"#fff"
-                }}, [h(MessageCircle,{key:1,size:16}), "Get on WhatsApp"])
-            )
-          ]))
-        )
-      ])
-    ),
+                        <!-- Illustrated Avatar Container -->
+                        <div class="flex items-center space-x-4 bg-navy-900/80 p-4 rounded-xl border border-slate-800 mb-4">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-3xl shadow-md flex-shrink-0">
+                                👳🏽‍♂️👧🏽
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Amanpreet Kaur</h3>
+                                <p class="text-xs text-mint-400">Daughter of a Seafarer & Founder</p>
+                            </div>
+                        </div>
 
-    /* WHY / TRUST STRIP */
-    h("section", { key:"why", className:"wrap", style:{padding:"56px 20px"} }, [
-      h("h2", { key:1, style:{fontSize:26,fontWeight:800,letterSpacing:"-0.02em",maxWidth:560} },
-        "Built for seafarers. Global 5G coverage. Delivered like family."),
-      h("div", { key:2, style:{marginTop:28,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:16} }, [
-        h("div",{key:1,style:{borderRadius:20,background:"#fff",border:"1px solid rgba(0,0,0,.06)",padding:24}},[
-          h("div",{key:1,style:{width:44,height:44,borderRadius:12,background:"#E6FBF8",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--tealtext)",fontWeight:800,fontSize:18}},"₹"),
-          h("h3",{key:2,style:{marginTop:16,fontSize:18,fontWeight:700}},"Save 50% vs Holafly & Airalo"),
-          h("p",{key:3,style:{marginTop:8,fontSize:13.5,lineHeight:1.6,opacity:.65}},"Same global 5G networks via Etisalat 5G / du, at a fraction of the big-brand price."),
-        ]),
-        h("div",{key:2,style:{borderRadius:20,background:"#fff",border:"1px solid rgba(0,0,0,.06)",padding:24}},[
-          h("div",{key:1,style:{width:44,height:44,borderRadius:12,background:"var(--navy)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center"}},h(Zap,{size:20})),
-          h("h3",{key:2,style:{marginTop:16,fontSize:18,fontWeight:700}},"Instant QR in 5 mins at port"),
-          h("p",{key:3,style:{marginTop:8,fontSize:13.5,lineHeight:1.6,opacity:.65}},"WhatsApp, pay UPI, QR to email + WhatsApp. No app, no KYC."),
-        ]),
-        h("div",{key:3,style:{borderRadius:20,background:"var(--navy)",color:"#fff",padding:24}},[
-          h("div",{key:1,style:{width:44,height:44,borderRadius:12,background:"rgba(255,255,255,.1)",display:"flex",alignItems:"center",justifyContent:"center"}},h(HeartHandshake,{size:20})),
-          h("h3",{key:2,style:{marginTop:16,fontSize:18,fontWeight:700}},"Made for seafarers, by seafarer families"),
-          h("p",{key:3,style:{marginTop:8,fontSize:13.5,lineHeight:1.6,opacity:.6}},"80+ families trust us, with a WhatsApp channel of daily proof and real reviews."),
-        ]),
-      ])
-    ]),
+                        <blockquote class="text-xs md:text-sm text-slate-300 italic leading-relaxed border-l-2 border-amber-400 pl-3 my-3">
+                            "I grew up waiting days for my dad's call from ocean... data too expensive. We lived your life. That pain made me start this."
+                        </blockquote>
 
-    /* HOW IT WORKS */
-    h("section", { key:"how", id:"how", className:"wrap", style:{paddingBottom:56} },
-      h("div", { style:{borderRadius:28,background:"var(--navy)",color:"#fff",padding:"36px 24px",position:"relative",overflow:"hidden"} }, [
-        h("h2", { key:1, style:{fontSize:26,fontWeight:800,letterSpacing:"-0.02em"} }, "How it works — 3 steps, 5 minutes"),
-        h("div", { key:2, style:{marginTop:28,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:20} },
-          [
-            { n:"01", t:"Choose Plan on WhatsApp", d:"Send country + days. We confirm best network and price. UPI, Card, PayPal ok.", Ic:MessageCircle },
-            { n:"02", t:"Get QR in 5 mins", d:"Pay → QR to email + WhatsApp instantly. Family team tracks delivery.", Ic:Zap },
-            { n:"03", t:"Activate at Port", d:"iPhone: Settings > Cellular > Add eSIM. Android: Settings > Network > Add eSIM.", Ic:Ship },
-          ].map((s,i) => h("div",{key:i,style:{borderRadius:18,background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.1)",padding:20}},[
-            h("div",{key:1,style:{display:"flex",justifyContent:"space-between",alignItems:"center"}},[
-              h("div",{key:1,style:{width:36,height:36,borderRadius:999,background:"#fff",color:"var(--navy)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:13}}, s.n),
-              h(s.Ic,{key:2,size:18,color:"rgba(255,255,255,.5)"})
-            ]),
-            h("div",{key:2,style:{marginTop:16,fontSize:16,fontWeight:700}}, s.t),
-            h("div",{key:3,style:{marginTop:8,fontSize:13,lineHeight:1.6,color:"rgba(255,255,255,.6)"}}, s.d),
-          ]))
-        ),
-        h("a", { key:3, href:waLink(), target:"_blank", rel:"noopener", className:"btn",
-          style:{marginTop:24,height:44,background:"#fff",color:"var(--navy)",padding:"0 20px",fontSize:13.5} },
-          "Start on WhatsApp — +91 75061 78946")
-      ])
-    ),
+                        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400">Mission: <strong class="text-white">No Seafarer Disconnected</strong></span>
+                            <span class="bg-mint-500/10 text-mint-400 font-semibold px-2 py-0.5 rounded">100% Family Run</span>
+                        </div>
+                    </div>
+                </div>
 
-    /* FAQ */
-    h("section", { key:"faq", style:{background:"#fff",borderTop:"1px solid rgba(0,0,0,.06)"} },
-      h("div", { className:"wrap", style:{padding:"56px 20px",display:"grid",gridTemplateColumns:"1fr",gap:24} }, [
-        h("h2", { key:1, style:{fontSize:26,fontWeight:800,letterSpacing:"-0.02em"} }, "Questions from crew at Jebel Ali, China, USA."),
-        h("div", { key:2, style:{display:"flex",flexDirection:"column",gap:8} },
-          FAQS.map((f,i) => h("div", { key:i, style:{
-              borderRadius:16, border: openFaq===i ? "1px solid rgba(0,0,0,.1)" : "1px solid rgba(0,0,0,.06)",
-              background: openFaq===i ? "var(--panel)" : "#fff"
-            }}, [
-            h("button", { key:1, onClick:()=>setOpenFaq(openFaq===i?null:i),
-              style:{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center",gap:16,padding:20,textAlign:"left"} }, [
-              h("div",{key:1,style:{fontSize:14.5,fontWeight:700,lineHeight:1.35}}, f.q),
-              h("div",{key:2,style:{
-                  width:28,height:28,borderRadius:999,border:"1px solid rgba(0,0,0,.1)",display:"flex",alignItems:"center",justifyContent:"center",
-                  transform: openFaq===i ? "rotate(180deg)" : "none", transition:"transform .15s",
-                  background: openFaq===i ? "var(--navy)" : "#fff", color: openFaq===i ? "#fff" : "var(--navy)"
-                }}, h(ChevronDown,{size:16}))
-            ]),
-            openFaq===i ? h("div",{key:2,style:{padding:"0 20px 20px",marginTop:-4,fontSize:13.5,lineHeight:1.7,opacity:.65}}, f.a) : null
-          ]))
-        )
-      ])
-    ),
+            </div>
+        </section>
 
-    /* CONTACT */
-    h("section", { key:"contact", style:{background:"#fff"} },
-      h("div", { className:"wrap", style:{padding:"0 20px 56px"} },
-        h("div", { style:{borderRadius:20,background:"var(--panel)",border:"1px solid rgba(0,0,0,.06)",padding:24} }, [
-          h("div", { key:1, style:{display:"flex",alignItems:"center",gap:10} }, [
-            h(Mail,{key:1,size:20,color:"var(--navy)"}),
-            h("h2",{key:2,style:{fontSize:22,fontWeight:800,letterSpacing:"-0.02em"}}, "Contact Us")
-          ]),
-          h("p",{key:2,style:{marginTop:6,marginLeft:30,fontSize:13.5,opacity:.65}}, "We're here to help. Reach out to us anytime."),
-          h("div", { key:3, style:{marginTop:22,display:"flex",flexDirection:"column",gap:20} },
-            [
-              { Ic:Headphones, title:"Customer Support", email:"Support@oceanseafareresim.com" },
-              { Ic:Info, title:"General Enquiries", email:"Info@oceanseafareresim.com" },
-              { Ic:Handshake, title:"Business / Partnerships", email:"Sales@oceanseafareresim.com" },
-            ].map((c,i) => h("div", { key:i, style:{display:"flex",alignItems:"flex-start",gap:14} }, [
-              h("div", { key:1, style:{
-                  width:40,height:40,borderRadius:999,background:"rgba(15,32,64,.08)",
-                  display:"flex",alignItems:"center",justifyContent:"center",color:"var(--navy)",flexShrink:0
-                }}, h(c.Ic,{size:18})),
-              h("div", { key:2 }, [
-                h("div",{key:1,style:{fontSize:14.5,fontWeight:700}}, c.title),
-                h("a", { key:2, href:"mailto:"+c.email, style:{
-                    marginTop:4,display:"flex",alignItems:"center",gap:6,fontSize:13.5,color:"rgba(15,32,64,.65)"
-                  }}, [h(Mail,{key:1,size:14}), c.email])
-              ])
-            ]))
-          )
-        ])
-      )
-    ),
+        <!-- Search / Docking Port Section -->
+        <section id="ports" class="max-w-6xl mx-auto px-4 -mt-8 relative z-20">
+            <div class="glass-card rounded-2xl p-6 shadow-2xl border border-slate-700">
+                <h3 class="text-lg md:text-xl font-bold text-center text-white mb-4">Where are you docking next?</h3>
+                
+                <div class="max-w-2xl mx-auto relative mb-6">
+                    <input type="text" placeholder="Search Port e.g. Jebel Ali, Singapore, Suez, Rotterdam..." class="w-full bg-navy-900 border border-slate-700 rounded-xl px-4 py-3 pl-11 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-400">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+                </div>
 
-    /* FOOTER */
-    h("footer", { key:"footer", style:{borderTop:"1px solid rgba(0,0,0,.06)",background:"#fff"} },
-      h("div", { className:"wrap", style:{padding:"36px 20px",display:"flex",flexWrap:"wrap",justifyContent:"space-between",gap:16} }, [
-        h("div", { key:1, style:{display:"flex",alignItems:"center",gap:8,fontWeight:800} }, [h(Anchor,{key:1,size:16}), "OCEAN SEAFARER eSIM"]),
-        h("div", { key:2, style:{fontSize:12,opacity:.5} },
-          "© " + new Date().getFullYear() + " OCEAN Seafarer eSIM • Stay Connected at Sea. From Ship to Shore.")
-      ])
-    ),
-  ]);
-}
+                <!-- Quick Port Chips -->
+                <div class="flex flex-wrap items-center justify-center gap-2 text-xs">
+                    <button class="bg-amber-500 text-slate-950 font-bold px-4 py-2 rounded-lg flex items-center space-x-1.5 shadow">
+                        <span>🇦🇪 Jebel Ali Port</span>
+                    </button>
+                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
+                        <span>🇦🇪 Dubai</span>
+                    </button>
+                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
+                        <span>🇸🇬 Singapore</span>
+                    </button>
+                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
+                        <span>🇦🇺 Australia</span>
+                    </button>
+                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
+                        <span>🌐 Global Plans</span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(h(React.StrictMode, null, h(App)));
-</script>
+        <!-- Popular Plans Section -->
+        <section class="max-w-6xl mx-auto px-4 py-16">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-white">Popular Port Plans — Instant QR</h3>
+                <p class="text-xs text-slate-400 mt-1">Direct local operator networks for berth & anchorage coverage</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Plan Card 1 -->
+                <div class="bg-navy-800 rounded-2xl border border-slate-700 p-6 flex flex-col justify-between hover:border-amber-400/50 transition">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-xl mr-2">🇦🇪</span>
+                                <h4 class="font-bold text-lg text-white inline">UAE / Jebel Ali</h4>
+                            </div>
+                            <span class="bg-amber-500/20 text-amber-400 text-[10px] font-extrabold px-2 py-1 rounded uppercase">Save ₹1010</span>
+                        </div>
+                        <div class="my-4">
+                            <span class="text-3xl font-extrabold text-white price-inr">₹700</span>
+                            <span class="text-3xl font-extrabold text-white price-usd hidden">$8.50</span>
+                            <span class="text-xs text-slate-400 line-through ml-2">Market ₹1710</span>
+                        </div>
+                        <ul class="text-xs space-y-2.5 text-slate-300 mb-6">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> UAE 5 Days</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> 10GB High Speed (2GB/Day)</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Etisalat 5G berth network</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Instant QR via WhatsApp</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/917506178946?text=Hi,%20I%20want%20UAE%20Jebel%20Ali%2010GB%20plan" target="_blank" class="w-full bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center space-x-2 transition">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Get on WhatsApp</span>
+                    </a>
+                </div>
+
+                <!-- Plan Card 2 -->
+                <div class="bg-navy-800 rounded-2xl border border-mint-500/40 p-6 flex flex-col justify-between relative shadow-xl">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-mint-500 text-slate-950 font-extrabold text-[10px] px-3 py-0.5 rounded-full uppercase tracking-wider">
+                        Most Popular
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-xl mr-2">🇸🇬</span>
+                                <h4 class="font-bold text-lg text-white inline">Singapore Port</h4>
+                            </div>
+                            <span class="bg-amber-500/20 text-amber-400 text-[10px] font-extrabold px-2 py-1 rounded uppercase">Best Value</span>
+                        </div>
+                        <div class="my-4">
+                            <span class="text-3xl font-extrabold text-white price-inr">₹700</span>
+                            <span class="text-3xl font-extrabold text-white price-usd hidden">$8.50</span>
+                            <span class="text-xs text-slate-400 line-through ml-2">Market ₹1710</span>
+                        </div>
+                        <ul class="text-xs space-y-2.5 text-slate-300 mb-6">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Singapore 5 Days</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> 10GB High Speed (2GB/Day)</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Singtel / Starhub 5G</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Instant QR delivery</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/917506178946?text=Hi,%20I%20want%20Singapore%2010GB%20plan" target="_blank" class="w-full bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center space-x-2 transition">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Get on WhatsApp</span>
+                    </a>
+                </div>
+
+                <!-- Plan Card 3 -->
+                <div class="bg-navy-800 rounded-2xl border border-slate-700 p-6 flex flex-col justify-between hover:border-amber-400/50 transition">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-xl mr-2">🌐</span>
+                                <h4 class="font-bold text-lg text-white inline">Global 190+ Countries</h4>
+                            </div>
+                        </div>
+                        <div class="my-4">
+                            <span class="text-3xl font-extrabold text-white price-inr">₹700</span>
+                            <span class="text-3xl font-extrabold text-white price-usd hidden">$8.50</span>
+                            <span class="text-xs text-slate-400 line-through ml-2">Market ₹1710</span>
+                        </div>
+                        <ul class="text-xs space-y-2.5 text-slate-300 mb-6">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Global Multi-Country Coverage</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Pay as you go data</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Perfect for long voyages</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Zero roaming hidden charges</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/917506178946?text=Hi,%20I%20want%20Global%20eSIM%20plan" target="_blank" class="w-full bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center space-x-2 transition">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Get on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="bg-navy-800/50 py-12 border-y border-slate-800">
+            <div class="max-w-6xl mx-auto px-4">
+                <h3 class="text-xl font-bold text-center text-white mb-8">How it works — 3 steps, 5 minutes</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="p-4 rounded-xl bg-navy-900 border border-slate-800">
+                        <div class="w-12 h-12 bg-mint-500/10 text-mint-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">1</div>
+                        <h4 class="font-bold text-white text-sm">Choose plan on WhatsApp</h4>
+                        <p class="text-xs text-slate-400 mt-1">Send country + days. We confirm best network & price.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-navy-900 border border-slate-800">
+                        <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">2</div>
+                        <h4 class="font-bold text-white text-sm">Pay & DM Transaction ID</h4>
+                        <p class="text-xs text-slate-400 mt-1">UPI, GPay, PhonePe, Card or PayPal ok.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-navy-900 border border-slate-800">
+                        <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">3</div>
+                        <h4 class="font-bold text-white text-sm">Get QR in 5 mins & Activate</h4>
+                        <p class="text-xs text-slate-400 mt-1">Scan QR sent on WhatsApp & email. Immediate connection at port.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Value Badges Bar -->
+        <section class="py-8 border-b border-slate-800 text-xs">
+            <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
+                    <i class="fa-solid fa-percent text-amber-400 text-base mb-1"></i>
+                    <p class="font-semibold text-white">Save 50% vs Holafly/Airalo</p>
+                </div>
+                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
+                    <i class="fa-solid fa-bolt text-mint-400 text-base mb-1"></i>
+                    <p class="font-semibold text-white">Instant QR in 5 mins</p>
+                </div>
+                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
+                    <i class="fa-solid fa-file-invoice text-blue-400 text-base mb-1"></i>
+                    <p class="font-semibold text-white">GST Invoice Provided</p>
+                </div>
+                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
+                    <i class="fa-solid fa-shield-halved text-purple-400 text-base mb-1"></i>
+                    <p class="font-semibold text-white">Price Match Guarantee</p>
+                </div>
+                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800 col-span-2 md:col-span-1">
+                    <i class="fa-solid fa-headset text-rose-400 text-base mb-1"></i>
+                    <p class="font-semibold text-white">100% Human Support</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- REVIEWS SECTION (Placed above Questions from Crew) -->
+        <section class="max-w-6xl mx-auto px-4 py-16">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-white">Reviews</h3>
+                <p class="text-xs text-mint-400 font-medium mt-1">
+                    <i class="fa-brands fa-whatsapp"></i> 100+ seafarers, Verified on WhatsApp
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review Card 1 -->
+                <div class="glass-card p-5 rounded-2xl border border-slate-700/80">
+                    <div class="flex text-amber-400 text-xs mb-3 space-x-1">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-xs text-slate-200 leading-relaxed italic mb-4">
+                        "Payment made on my account. Very smooth. Received QR codes within 4 minutes at Jebel Ali berth. Signal full 5G!"
+                    </p>
+                    <div class="text-[11px] text-slate-400 flex justify-between items-center pt-2 border-t border-slate-800">
+                        <span class="font-semibold text-white">Chief Officer R. Singh</span>
+                        <span class="text-mint-400"><i class="fa-solid fa-check-double"></i> WhatsApp Verified</span>
+                    </div>
+                </div>
+
+                <!-- Review Card 2 -->
+                <div class="glass-card p-5 rounded-2xl border border-slate-700/80">
+                    <div class="flex text-amber-400 text-xs mb-3 space-x-1">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-xs text-slate-200 leading-relaxed italic mb-4">
+                        "Seafarers confirm payments via GPay/PhonePe. Super convenient, no foreign card needed. Best prices compared to Airalo."
+                    </p>
+                    <div class="text-[11px] text-slate-400 flex justify-between items-center pt-2 border-t border-slate-800">
+                        <span class="font-semibold text-white">2nd Engineer Vikram</span>
+                        <span class="text-mint-400"><i class="fa-solid fa-check-double"></i> WhatsApp Verified</span>
+                    </div>
+                </div>
+
+                <!-- Review Card 3 -->
+                <div class="glass-card p-5 rounded-2xl border border-slate-700/80">
+                    <div class="flex text-amber-400 text-xs mb-3 space-x-1">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-xs text-slate-200 leading-relaxed italic mb-4">
+                        "Fast QR received on WhatsApp. Was able to video call my daughter right after ship anchored at Singapore."
+                    </p>
+                    <div class="text-[11px] text-slate-400 flex justify-between items-center pt-2 border-t border-slate-800">
+                        <span class="font-semibold text-white">Able Seaman Gurpreet</span>
+                        <span class="text-mint-400"><i class="fa-solid fa-check-double"></i> WhatsApp Verified</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Questions from crew at Jebel Ali, China, USA (FAQ Section) -->
+        <section class="max-w-4xl mx-auto px-4 pb-16">
+            <h3 class="text-xl font-bold text-white text-center mb-6">Questions from crew at Jebel Ali, China, USA</h3>
+
+            <div class="space-y-3 text-xs">
+                <!-- FAQ Item 1 -->
+                <div class="bg-navy-800 rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center">
+                        <span>Do you have UAE Unlimited? Is 10GB enough?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-1" class="hidden p-4 pt-0 text-slate-300 border-t border-slate-800/50 leading-relaxed">
+                        Yes, we offer both! 10GB (2GB/day) is enough for WhatsApp video calls, maps & UPI for 5 days at Jebel Ali / Dubai. If you stream a lot, take our Unlimited at ₹1350 — still 50% cheaper than Holafly's $20.50 (₹1710). Both on Global 5G Networks via Etisalat / du.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-navy-800 rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center">
+                        <span>Which network will I get? Will it work inside ship?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-2" class="hidden p-4 pt-0 text-slate-300 border-t border-slate-800/50 leading-relaxed">
+                        We connect to top Tier-1 local networks (like Etisalat, Singtel, Vodafone). Coverage inside ship accommodation depends on port proximity, but signal strength at berth/anchorage is excellent.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-navy-800 rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq(3)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center">
+                        <span>How fast will I get QR? I have short shore leave.</span>
+                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-3" class="hidden p-4 pt-0 text-slate-300 border-t border-slate-800/50 leading-relaxed">
+                        Delivery is instant! Within 3-5 minutes of payment confirmation on WhatsApp, your QR code is sent directly to your WhatsApp and email address.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer / Contact Info -->
+    <footer class="bg-navy-950 border-t border-slate-800 pt-10 pb-6 text-xs text-slate-400">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <h5 class="font-bold text-white text-sm mb-3">Customer Support</h5>
+                <p><i class="fa-regular fa-envelope mr-2"></i> Support@oceanseafareresim.com</p>
+                <p class="mt-1"><i class="fa-brands fa-whatsapp mr-2 text-mint-400"></i> +91 75061 78946</p>
+            </div>
+            <div>
+                <h5 class="font-bold text-white text-sm mb-3">General Enquiries</h5>
+                <p><i class="fa-regular fa-envelope mr-2"></i> Info@oceanseafareresim.com</p>
+            </div>
+            <div>
+                <h5 class="font-bold text-white text-sm mb-3">Business / Partnerships</h5>
+                <p><i class="fa-regular fa-envelope mr-2"></i> Sales@oceanseafareresim.com</p>
+            </div>
+        </div>
+
+        <!-- Payment Accepted Icons -->
+        <div class="text-center py-4 border-t border-slate-900 flex justify-center space-x-4 text-lg text-slate-300">
+            <i class="fa-brands fa-google-pay hover:text-white transition"></i>
+            <i class="fa-brands fa-apple-pay hover:text-white transition"></i>
+            <i class="fa-solid fa-credit-card hover:text-white transition"></i>
+            <i class="fa-solid fa-qrcode hover:text-white transition"></i>
+        </div>
+
+        <div class="text-center text-[11px] text-slate-500 pt-3">
+            <p><strong>OCEAN SEAFARER eSIM</strong> - Seafarer eSIM by Seafarer Family - Founded by Amanpreet Kaur, Daughter of a Seafarer.</p>
+            <p class="mt-1">© 2026 Ocean Seafarer eSIM - Stay Connected. Anywhere. Anytime.</p>
+        </div>
+    </footer>
+
+    <!-- Simple JavaScript for interactivity -->
+    <script>
+        // Toggle FAQ Accordion
+        function toggleFaq(num) {
+            const ans = document.getElementById(`faq-ans-${num}`);
+            const icon = document.getElementById(`faq-icon-${num}`);
+            
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                ans.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Toggle Currency (INR <-> USD)
+        let isINR = true;
+        function toggleCurrency() {
+            isINR = !isINR;
+            const flag = document.getElementById('currFlag');
+            const text = document.getElementById('currText');
+            const inrPrices = document.querySelectorAll('.price-inr');
+            const usdPrices = document.querySelectorAll('.price-usd');
+
+            if (isINR) {
+                flag.textContent = '🇮🇳';
+                text.textContent = 'INR (₹)';
+                inrPrices.forEach(el => el.classList.remove('hidden'));
+                usdPrices.forEach(el => el.classList.add('hidden'));
+            } else {
+                flag.textContent = '🇺🇸';
+                text.textContent = 'USD ($)';
+                inrPrices.forEach(el => el.classList.add('hidden'));
+                usdPrices.forEach(el => el.classList.remove('hidden'));
+            }
+        }
+    </script>
 </body>
 </html>
