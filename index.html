@@ -3,478 +3,376 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCEAN SEAFARER eSIM - Connection That Feels Like Home</title>
+    <title>OCEAN SEAFARER eSIM</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        navy: {
-                            900: '#070d19',
-                            800: '#0b132b',
-                            700: '#1c2541',
-                            600: '#232ed1'
-                        },
-                        mint: {
-                            400: '#34d399',
-                            500: '#10b981',
-                            600: '#059669',
-                        },
-                        amber: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                        }
+                        darkBg: '#090e1a',
+                        cardBg: '#0e1626',
+                        cardBorder: '#1e293b',
+                        amberGold: '#f5a623',
+                        tealCyan: '#2dd4bf',
+                        brandGreen: '#10b981',
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .glass-card {
-            background: rgba(28, 37, 65, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .hero-bg {
-            background: radial-gradient(circle at top right, #1c2541 0%, #0b132b 60%, #070d19 100%);
+        body {
+            background-color: #090e1a;
+            color: #f1f5f9;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
     </style>
 </head>
-<body class="bg-navy-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col antialiased">
 
-    <!-- Live Alert Ticker -->
-    <div class="bg-navy-800 text-xs py-2 px-4 border-b border-slate-800 text-slate-300 overflow-hidden whitespace-nowrap">
-        <div class="inline-flex space-x-8 animate-pulse">
-            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-mint-400 mr-2"></span> UAE: 10GB eSIM delivered in 4m 32s to container ship Captain</span>
-            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-mint-400 mr-2"></span> Singapore: Global plan activated by Seaman</span>
-            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-mint-400 mr-2"></span> Suez Canal: Family plan order completed</span>
-        </div>
+    <!-- Top Alert Bar -->
+    <div class="bg-[#050912] text-[11px] py-1.5 px-3 text-slate-300 flex items-center border-b border-slate-900">
+        <span class="w-2 h-2 rounded-full bg-brandGreen mr-2 inline-block shrink-0"></span>
+        <span class="truncate">UAE: 10GB eSIM delivered in 4m 32s to container ship Captain</span>
     </div>
 
-    <!-- Navigation Bar -->
-    <header class="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-slate-800 px-4 md:px-8 py-3 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-mint-400 p-0.5 flex items-center justify-center">
-                <div class="w-full h-full bg-navy-900 rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-ship text-mint-400 text-lg"></i>
-                </div>
+    <!-- Header / Navigation -->
+    <header class="bg-[#090e1a] px-4 py-3 flex items-center justify-between border-b border-slate-800/60 sticky top-0 z-50">
+        <div class="flex items-center space-x-2.5">
+            <div class="w-9 h-9 rounded-full bg-[#0a233c] border border-cyan-500/30 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-ship text-tealCyan text-sm"></i>
             </div>
             <div>
-                <h1 class="font-bold text-base md:text-lg tracking-tight text-white leading-tight">OCEAN <span class="text-amber-400">SEAFARER eSIM</span></h1>
-                <p class="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Seafarer eSIM by Seafarer Family</p>
+                <h1 class="font-bold text-sm tracking-tight text-white leading-tight">
+                    OCEAN <span class="text-amberGold">SEAFARER eSIM</span>
+                </h1>
+                <p class="text-[9px] text-slate-400 font-semibold tracking-wider uppercase">
+                    SEAFARER ESIM BY SEAFARER FAMILY
+                </p>
             </div>
         </div>
 
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-2">
             <!-- Currency Toggle -->
-            <button id="currencyBtn" onclick="toggleCurrency()" class="bg-navy-800 border border-slate-700 hover:border-slate-500 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition">
+            <button id="currencyBtn" onclick="toggleCurrency()" class="bg-[#0e1626] border border-slate-700 hover:border-slate-500 text-[11px] px-2.5 py-1.5 rounded-lg flex items-center space-x-1.5 transition">
                 <span id="currFlag">🇮🇳</span>
-                <span id="currText" class="font-semibold">INR (₹)</span>
+                <span id="currText" class="font-semibold text-slate-200">INR (₹)</span>
             </button>
 
-            <!-- WhatsApp Header CTA -->
-            <a href="https://wa.me/917506178946" target="_blank" class="bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold text-xs md:text-sm px-4 py-2 rounded-lg flex items-center space-x-2 transition shadow-lg shadow-mint-500/20">
-                <i class="fa-brands fa-whatsapp text-lg"></i>
-                <span class="hidden sm:inline">WhatsApp Us</span>
+            <!-- WhatsApp Icon Button -->
+            <a href="https://wa.me/917506178946" target="_blank" class="bg-brandGreen hover:bg-emerald-600 text-slate-950 p-2 rounded-lg flex items-center justify-center transition shadow-md shadow-brandGreen/20">
+                <i class="fa-brands fa-whatsapp text-lg text-slate-950"></i>
             </a>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow">
-        <!-- Hero Section -->
-        <section class="hero-bg relative pt-8 pb-16 px-4 md:px-8 overflow-hidden">
-            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
-                <!-- Left Hero Text -->
-                <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full text-amber-400 text-xs font-medium">
-                        <i class="fa-solid fa-anchor"></i>
-                        <span>Built for Seafarers, by Seafarer Families</span>
-                    </div>
+    <!-- Main Content Container -->
+    <main class="flex-grow px-4 py-6 space-y-6 max-w-lg mx-auto w-full">
 
-                    <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                        OCEAN SEAFARER eSIM: <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-mint-400 via-teal-300 to-blue-400">
-                            Connection That Feels Like Home.
-                        </span>
-                    </h2>
-
-                    <p class="text-slate-300 text-sm md:text-base leading-relaxed max-w-xl">
-                        Stay Connected in 5 Mins with high-speed port 5G data. No expensive roaming, no contract, instant QR delivered via WhatsApp.
-                    </p>
-
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-                        <a href="#ports" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-center px-6 py-3 rounded-xl shadow-lg shadow-amber-500/20 flex items-center justify-center space-x-2 transition">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <span>Find Your Port Plan</span>
-                        </a>
-                        <a href="https://wa.me/917506178946" target="_blank" class="border border-slate-700 hover:bg-navy-800 text-white font-semibold text-center px-6 py-3 rounded-xl flex items-center justify-center space-x-2 transition">
-                            <i class="fa-brands fa-whatsapp text-mint-400 text-lg"></i>
-                            <span>Get Plans via WhatsApp</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Right Hero: Founder Story Card -->
-                <div class="lg:col-span-5">
-                    <div class="glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl relative overflow-hidden">
-                        <div class="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-3 flex items-center justify-between">
-                            <span>OUR STORY, YOUR CONNECTION</span>
-                            <i class="fa-solid fa-heart text-rose-500"></i>
-                        </div>
-
-                        <!-- Illustrated Avatar Container -->
-                        <div class="flex items-center space-x-4 bg-navy-900/80 p-4 rounded-xl border border-slate-800 mb-4">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-3xl shadow-md flex-shrink-0">
-                                👳🏽‍♂️👧🏽
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-white">Amanpreet Kaur</h3>
-                                <p class="text-xs text-mint-400">Daughter of a Seafarer & Founder</p>
-                            </div>
-                        </div>
-
-                        <blockquote class="text-xs md:text-sm text-slate-300 italic leading-relaxed border-l-2 border-amber-400 pl-3 my-3">
-                            "I grew up waiting days for my dad's call from ocean... data too expensive. We lived your life. That pain made me start this."
-                        </blockquote>
-
-                        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px]">
-                            <span class="text-slate-400">Mission: <strong class="text-white">No Seafarer Disconnected</strong></span>
-                            <span class="bg-mint-500/10 text-mint-400 font-semibold px-2 py-0.5 rounded">100% Family Run</span>
-                        </div>
-                    </div>
-                </div>
-
+        <!-- Hero Badge -->
+        <div class="flex justify-start">
+            <div class="inline-flex items-center space-x-1.5 bg-[#261d0c] border border-[#f5a623]/40 px-3 py-1 rounded-full text-amberGold text-[11px] font-medium">
+                <i class="fa-solid fa-anchor text-xs"></i>
+                <span>Built for Seafarers, by Seafarer Families</span>
             </div>
-        </section>
+        </div>
 
-        <!-- Search / Docking Port Section -->
-        <section id="ports" class="max-w-6xl mx-auto px-4 -mt-8 relative z-20">
-            <div class="glass-card rounded-2xl p-6 shadow-2xl border border-slate-700">
-                <h3 class="text-lg md:text-xl font-bold text-center text-white mb-4">Where are you docking next?</h3>
-                
-                <div class="max-w-2xl mx-auto relative mb-6">
-                    <input type="text" placeholder="Search Port e.g. Jebel Ali, Singapore, Suez, Rotterdam..." class="w-full bg-navy-900 border border-slate-700 rounded-xl px-4 py-3 pl-11 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-400">
-                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
-                </div>
+        <!-- Hero Title & Subtitle -->
+        <div class="space-y-3">
+            <h2 class="text-2xl font-extrabold text-white tracking-tight leading-snug">
+                OCEAN SEAFARER eSIM:<br>
+                <span class="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+                    Connection That Feels Like Home.
+                </span>
+            </h2>
+            <p class="text-slate-300 text-xs leading-relaxed">
+                Stay Connected in 5 Mins with high-speed port 5G data. No expensive roaming, no contract, instant QR delivered via WhatsApp.
+            </p>
+        </div>
 
-                <!-- Quick Port Chips -->
-                <div class="flex flex-wrap items-center justify-center gap-2 text-xs">
-                    <button class="bg-amber-500 text-slate-950 font-bold px-4 py-2 rounded-lg flex items-center space-x-1.5 shadow">
-                        <span>🇦🇪 Jebel Ali Port</span>
-                    </button>
-                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
-                        <span>🇦🇪 Dubai</span>
-                    </button>
-                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
-                        <span>🇸🇬 Singapore</span>
-                    </button>
-                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
-                        <span>🇦🇺 Australia</span>
-                    </button>
-                    <button class="bg-navy-800 hover:bg-navy-700 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition">
-                        <span>🌐 Global Plans</span>
-                    </button>
-                </div>
-            </div>
-        </section>
+        <!-- Hero Buttons -->
+        <div class="space-y-2.5 pt-1">
+            <a href="#ports" class="w-full bg-amberGold hover:bg-amber-500 text-slate-950 font-bold text-xs py-3 rounded-xl flex items-center justify-center space-x-2 transition shadow-lg shadow-amberGold/10">
+                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                <span>Find Your Port Plan</span>
+            </a>
+            <a href="https://wa.me/917506178946" target="_blank" class="w-full bg-cardBg border border-slate-700/80 hover:bg-slate-800 text-white font-semibold text-xs py-3 rounded-xl flex items-center justify-center space-x-2 transition">
+                <i class="fa-brands fa-whatsapp text-brandGreen text-base"></i>
+                <span>Get Plans via WhatsApp</span>
+            </a>
+        </div>
 
-        <!-- Popular Plans Section -->
-        <section class="max-w-6xl mx-auto px-4 py-16">
-            <div class="text-center mb-10">
-                <h3 class="text-2xl font-bold text-white">Popular Port Plans — Instant QR</h3>
-                <p class="text-xs text-slate-400 mt-1">Direct local operator networks for berth & anchorage coverage</p>
+        <!-- Our Story Card -->
+        <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 space-y-3 shadow-xl">
+            <div class="flex items-center justify-between text-[11px] font-bold text-amberGold tracking-wider uppercase">
+                <span>OUR STORY, YOUR CONNECTION</span>
+                <i class="fa-solid fa-heart text-rose-500 text-xs"></i>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Plan Card 1 -->
-                <div class="bg-navy-800 rounded-2xl border border-slate-700 p-6 flex flex-col justify-between hover:border-amber-400/50 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <span class="text-xl mr-2">🇦🇪</span>
-                                <h4 class="font-bold text-lg text-white inline">UAE / Jebel Ali</h4>
-                            </div>
-                            <span class="bg-amber-500/20 text-amber-400 text-[10px] font-extrabold px-2 py-1 rounded uppercase">Save ₹1010</span>
-                        </div>
-                        <div class="my-4">
-                            <span class="text-3xl font-extrabold text-white price-inr">₹700</span>
-                            <span class="text-3xl font-extrabold text-white price-usd hidden">$8.50</span>
-                            <span class="text-xs text-slate-400 line-through ml-2">Market ₹1710</span>
-                        </div>
-                        <ul class="text-xs space-y-2.5 text-slate-300 mb-6">
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> UAE 5 Days</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> 10GB High Speed (2GB/Day)</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Etisalat 5G berth network</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Instant QR via WhatsApp</li>
-                        </ul>
-                    </div>
-                    <a href="https://wa.me/917506178946?text=Hi,%20I%20want%20UAE%20Jebel%20Ali%2010GB%20plan" target="_blank" class="w-full bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center space-x-2 transition">
-                        <i class="fa-brands fa-whatsapp text-sm"></i>
-                        <span>Get on WhatsApp</span>
-                    </a>
+            <!-- Profile Info Box -->
+            <div class="bg-[#090e1a] p-3 rounded-xl border border-slate-800/80 flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-amberGold flex items-center justify-center text-xl shrink-0 overflow-hidden">
+                    👳🏽‍♂️👧🏽
                 </div>
-
-                <!-- Plan Card 2 -->
-                <div class="bg-navy-800 rounded-2xl border border-mint-500/40 p-6 flex flex-col justify-between relative shadow-xl">
-                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-mint-500 text-slate-950 font-extrabold text-[10px] px-3 py-0.5 rounded-full uppercase tracking-wider">
-                        Most Popular
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <span class="text-xl mr-2">🇸🇬</span>
-                                <h4 class="font-bold text-lg text-white inline">Singapore Port</h4>
-                            </div>
-                            <span class="bg-amber-500/20 text-amber-400 text-[10px] font-extrabold px-2 py-1 rounded uppercase">Best Value</span>
-                        </div>
-                        <div class="my-4">
-                            <span class="text-3xl font-extrabold text-white price-inr">₹700</span>
-                            <span class="text-3xl font-extrabold text-white price-usd hidden">$8.50</span>
-                            <span class="text-xs text-slate-400 line-through ml-2">Market ₹1710</span>
-                        </div>
-                        <ul class="text-xs space-y-2.5 text-slate-300 mb-6">
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Singapore 5 Days</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> 10GB High Speed (2GB/Day)</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Singtel / Starhub 5G</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Instant QR delivery</li>
-                        </ul>
-                    </div>
-                    <a href="https://wa.me/917506178946?text=Hi,%20I%20want%20Singapore%2010GB%20plan" target="_blank" class="w-full bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center space-x-2 transition">
-                        <i class="fa-brands fa-whatsapp text-sm"></i>
-                        <span>Get on WhatsApp</span>
-                    </a>
-                </div>
-
-                <!-- Plan Card 3 -->
-                <div class="bg-navy-800 rounded-2xl border border-slate-700 p-6 flex flex-col justify-between hover:border-amber-400/50 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <span class="text-xl mr-2">🌐</span>
-                                <h4 class="font-bold text-lg text-white inline">Global 190+ Countries</h4>
-                            </div>
-                        </div>
-                        <div class="my-4">
-                            <span class="text-3xl font-extrabold text-white price-inr">₹700</span>
-                            <span class="text-3xl font-extrabold text-white price-usd hidden">$8.50</span>
-                            <span class="text-xs text-slate-400 line-through ml-2">Market ₹1710</span>
-                        </div>
-                        <ul class="text-xs space-y-2.5 text-slate-300 mb-6">
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Global Multi-Country Coverage</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Pay as you go data</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Perfect for long voyages</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-mint-400 mr-2"></i> Zero roaming hidden charges</li>
-                        </ul>
-                    </div>
-                    <a href="https://wa.me/917506178946?text=Hi,%20I%20want%20Global%20eSIM%20plan" target="_blank" class="w-full bg-mint-500 hover:bg-mint-600 text-slate-950 font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center space-x-2 transition">
-                        <i class="fa-brands fa-whatsapp text-sm"></i>
-                        <span>Get on WhatsApp</span>
-                    </a>
+                <div>
+                    <h3 class="text-xs font-bold text-white">Amanpreet Kaur</h3>
+                    <p class="text-[10px] text-tealCyan font-medium">Daughter of a Seafarer & Founder</p>
                 </div>
             </div>
-        </section>
 
-        <!-- How It Works -->
-        <section class="bg-navy-800/50 py-12 border-y border-slate-800">
-            <div class="max-w-6xl mx-auto px-4">
-                <h3 class="text-xl font-bold text-center text-white mb-8">How it works — 3 steps, 5 minutes</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                    <div class="p-4 rounded-xl bg-navy-900 border border-slate-800">
-                        <div class="w-12 h-12 bg-mint-500/10 text-mint-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">1</div>
-                        <h4 class="font-bold text-white text-sm">Choose plan on WhatsApp</h4>
-                        <p class="text-xs text-slate-400 mt-1">Send country + days. We confirm best network & price.</p>
-                    </div>
-
-                    <div class="p-4 rounded-xl bg-navy-900 border border-slate-800">
-                        <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">2</div>
-                        <h4 class="font-bold text-white text-sm">Pay & DM Transaction ID</h4>
-                        <p class="text-xs text-slate-400 mt-1">UPI, GPay, PhonePe, Card or PayPal ok.</p>
-                    </div>
-
-                    <div class="p-4 rounded-xl bg-navy-900 border border-slate-800">
-                        <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">3</div>
-                        <h4 class="font-bold text-white text-sm">Get QR in 5 mins & Activate</h4>
-                        <p class="text-xs text-slate-400 mt-1">Scan QR sent on WhatsApp & email. Immediate connection at port.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Value Badges Bar -->
-        <section class="py-8 border-b border-slate-800 text-xs">
-            <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
-                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
-                    <i class="fa-solid fa-percent text-amber-400 text-base mb-1"></i>
-                    <p class="font-semibold text-white">Save 50% vs Holafly/Airalo</p>
-                </div>
-                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
-                    <i class="fa-solid fa-bolt text-mint-400 text-base mb-1"></i>
-                    <p class="font-semibold text-white">Instant QR in 5 mins</p>
-                </div>
-                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
-                    <i class="fa-solid fa-file-invoice text-blue-400 text-base mb-1"></i>
-                    <p class="font-semibold text-white">GST Invoice Provided</p>
-                </div>
-                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800">
-                    <i class="fa-solid fa-shield-halved text-purple-400 text-base mb-1"></i>
-                    <p class="font-semibold text-white">Price Match Guarantee</p>
-                </div>
-                <div class="p-3 bg-navy-800 rounded-xl border border-slate-800 col-span-2 md:col-span-1">
-                    <i class="fa-solid fa-headset text-rose-400 text-base mb-1"></i>
-                    <p class="font-semibold text-white">100% Human Support</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- REVIEWS SECTION (Placed above Questions from Crew) -->
-        <section class="max-w-6xl mx-auto px-4 py-16">
-            <div class="text-center mb-8">
-                <h3 class="text-2xl font-bold text-white">Reviews</h3>
-                <p class="text-xs text-mint-400 font-medium mt-1">
-                    <i class="fa-brands fa-whatsapp"></i> 100+ seafarers, Verified on WhatsApp
+            <!-- Quote -->
+            <div class="border-l-2 border-amberGold pl-3 py-0.5">
+                <p class="text-[11px] text-slate-300 italic leading-relaxed">
+                    "I grew up waiting days for my dad's call from ocean... data too expensive. We lived your life. That pain made me start this."
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Review Card 1 -->
-                <div class="glass-card p-5 rounded-2xl border border-slate-700/80">
-                    <div class="flex text-amber-400 text-xs mb-3 space-x-1">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-xs text-slate-200 leading-relaxed italic mb-4">
-                        "Payment made on my account. Very smooth. Received QR codes within 4 minutes at Jebel Ali berth. Signal full 5G!"
-                    </p>
-                    <div class="text-[11px] text-slate-400 flex justify-between items-center pt-2 border-t border-slate-800">
-                        <span class="font-semibold text-white">Chief Officer R. Singh</span>
-                        <span class="text-mint-400"><i class="fa-solid fa-check-double"></i> WhatsApp Verified</span>
-                    </div>
+            <!-- Card Footer -->
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+                <span class="text-slate-400">Mission: <strong class="text-white font-semibold">No Seafarer Disconnected</strong></span>
+                <span class="bg-brandGreen/10 border border-brandGreen/20 text-brandGreen font-bold px-2 py-0.5 rounded-md">100% Family Run</span>
+            </div>
+        </div>
+
+        <!-- Where are you docking next? Card -->
+        <div id="ports" class="bg-cardBg border border-cardBorder rounded-2xl p-5 space-y-4 shadow-xl">
+            <h3 class="text-base font-bold text-center text-white">Where are you docking next?</h3>
+
+            <!-- Search Bar -->
+            <div class="relative">
+                <input type="text" placeholder="Search Port e.g. Jebel Ali, Singapore, S" class="w-full bg-[#090e1a] border border-slate-700/80 rounded-xl px-3.5 py-2.5 pl-9 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amberGold">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
+            </div>
+
+            <!-- Port Tag Buttons -->
+            <div class="flex flex-wrap gap-2 text-xs">
+                <button class="bg-amberGold text-slate-950 font-bold px-3 py-1.5 rounded-lg flex items-center space-x-1.5">
+                    <span>🇦🇪 Jebel Ali Port</span>
+                </button>
+                <button class="bg-[#090e1a] hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700/80 flex items-center space-x-1.5">
+                    <span>🇦🇪 Dubai</span>
+                </button>
+                <button class="bg-[#090e1a] hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700/80 flex items-center space-x-1.5">
+                    <span>🇸🇬 Singapore</span>
+                </button>
+                <button class="bg-[#090e1a] hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700/80 flex items-center space-x-1.5">
+                    <span>🇦🇺 Australia</span>
+                </button>
+                <button class="bg-[#090e1a] hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700/80 flex items-center space-x-1.5">
+                    <span>🌐 Global Plans</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="pt-4 space-y-4">
+            <h3 class="text-base font-bold text-center text-white">How it works — 3 steps, 5 minutes</h3>
+
+            <div class="space-y-3">
+                <!-- Step 1 -->
+                <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 text-center space-y-1.5">
+                    <div class="w-9 h-9 bg-brandGreen/10 text-brandGreen rounded-full flex items-center justify-center mx-auto text-sm font-bold">1</div>
+                    <h4 class="font-bold text-white text-xs">Choose plan on WhatsApp</h4>
+                    <p class="text-[11px] text-slate-400">Send country + days. We confirm best network & price.</p>
                 </div>
 
-                <!-- Review Card 2 -->
-                <div class="glass-card p-5 rounded-2xl border border-slate-700/80">
-                    <div class="flex text-amber-400 text-xs mb-3 space-x-1">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-xs text-slate-200 leading-relaxed italic mb-4">
-                        "Seafarers confirm payments via GPay/PhonePe. Super convenient, no foreign card needed. Best prices compared to Airalo."
-                    </p>
-                    <div class="text-[11px] text-slate-400 flex justify-between items-center pt-2 border-t border-slate-800">
-                        <span class="font-semibold text-white">2nd Engineer Vikram</span>
-                        <span class="text-mint-400"><i class="fa-solid fa-check-double"></i> WhatsApp Verified</span>
-                    </div>
+                <!-- Step 2 -->
+                <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 text-center space-y-1.5">
+                    <div class="w-9 h-9 bg-amberGold/10 text-amberGold rounded-full flex items-center justify-center mx-auto text-sm font-bold">2</div>
+                    <h4 class="font-bold text-white text-xs">Pay & DM Transaction ID</h4>
+                    <p class="text-[11px] text-slate-400">UPI, GPay, PhonePe, Card or PayPal ok.</p>
                 </div>
 
-                <!-- Review Card 3 -->
-                <div class="glass-card p-5 rounded-2xl border border-slate-700/80">
-                    <div class="flex text-amber-400 text-xs mb-3 space-x-1">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-xs text-slate-200 leading-relaxed italic mb-4">
-                        "Fast QR received on WhatsApp. Was able to video call my daughter right after ship anchored at Singapore."
-                    </p>
-                    <div class="text-[11px] text-slate-400 flex justify-between items-center pt-2 border-t border-slate-800">
-                        <span class="font-semibold text-white">Able Seaman Gurpreet</span>
-                        <span class="text-mint-400"><i class="fa-solid fa-check-double"></i> WhatsApp Verified</span>
-                    </div>
+                <!-- Step 3 -->
+                <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 text-center space-y-1.5">
+                    <div class="w-9 h-9 bg-cyan-500/10 text-cyan-400 rounded-full flex items-center justify-center mx-auto text-sm font-bold">3</div>
+                    <h4 class="font-bold text-white text-xs">Get QR in 5 mins & Activate</h4>
+                    <p class="text-[11px] text-slate-400">Scan QR sent on WhatsApp & email. Immediate connection at port.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Questions from crew at Jebel Ali, China, USA (FAQ Section) -->
-        <section class="max-w-4xl mx-auto px-4 pb-16">
-            <h3 class="text-xl font-bold text-white text-center mb-6">Questions from crew at Jebel Ali, China, USA</h3>
+        <!-- Value Badges Grid -->
+        <div class="grid grid-cols-2 gap-2.5 pt-2">
+            <!-- Item 1 -->
+            <div class="bg-cardBg border border-cardBorder rounded-xl p-3 text-center space-y-1">
+                <i class="fa-solid fa-percent text-amberGold text-sm"></i>
+                <p class="text-[10px] font-semibold text-white leading-tight">Save 50% vs Holafly/Airalo</p>
+            </div>
+            <!-- Item 2 -->
+            <div class="bg-cardBg border border-cardBorder rounded-xl p-3 text-center space-y-1">
+                <i class="fa-solid fa-bolt text-brandGreen text-sm"></i>
+                <p class="text-[10px] font-semibold text-white leading-tight">Instant QR in 5 mins</p>
+            </div>
+            <!-- Item 3 -->
+            <div class="bg-cardBg border border-cardBorder rounded-xl p-3 text-center space-y-1">
+                <i class="fa-solid fa-file-invoice text-blue-400 text-sm"></i>
+                <p class="text-[10px] font-semibold text-white leading-tight">GST Invoice Provided</p>
+            </div>
+            <!-- Item 4 -->
+            <div class="bg-cardBg border border-cardBorder rounded-xl p-3 text-center space-y-1">
+                <i class="fa-solid fa-shield-halved text-purple-400 text-sm"></i>
+                <p class="text-[10px] font-semibold text-white leading-tight">Price Match Guarantee</p>
+            </div>
+            <!-- Item 5 (Full Width) -->
+            <div class="bg-cardBg border border-cardBorder rounded-xl p-3 text-center space-y-1 col-span-2">
+                <i class="fa-solid fa-headset text-rose-400 text-sm"></i>
+                <p class="text-[10px] font-semibold text-white leading-tight">100% Human Support</p>
+            </div>
+        </div>
 
-            <div class="space-y-3 text-xs">
-                <!-- FAQ Item 1 -->
-                <div class="bg-navy-800 rounded-xl border border-slate-800 overflow-hidden">
-                    <button onclick="toggleFaq(1)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center">
-                        <span>Do you have UAE Unlimited? Is 10GB enough?</span>
-                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+        <!-- Reviews Section -->
+        <div class="pt-4 space-y-3">
+            <div class="text-center space-y-0.5">
+                <h3 class="text-lg font-bold text-white">Reviews</h3>
+                <p class="text-[11px] text-brandGreen font-medium flex items-center justify-center space-x-1">
+                    <i class="fa-brands fa-whatsapp text-xs"></i>
+                    <span>100+ seafarers, Verified on WhatsApp</span>
+                </p>
+            </div>
+
+            <!-- Review Card 1 -->
+            <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 space-y-2.5">
+                <div class="flex text-amberGold text-xs space-x-1">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-[11px] text-slate-200 leading-relaxed italic">
+                    "Payment made on my account. Very smooth. Received QR codes within 4 minutes at Jebel Ali berth. Signal full 5G!"
+                </p>
+                <div class="text-[10px] flex justify-between items-center pt-1">
+                    <span class="font-bold text-white">Chief Officer R. Singh</span>
+                    <span class="text-brandGreen font-semibold flex items-center space-x-1">
+                        <i class="fa-solid fa-check text-[9px]"></i>
+                        <span>WhatsApp Verified</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Review Card 2 -->
+            <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 space-y-2.5">
+                <div class="flex text-amberGold text-xs space-x-1">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-[11px] text-slate-200 leading-relaxed italic">
+                    "Seafarers confirm payments via GPay/PhonePe. Super convenient, no foreign card needed. Best prices compared to Airalo."
+                </p>
+                <div class="text-[10px] flex justify-between items-center pt-1">
+                    <span class="font-bold text-white">2nd Engineer Vikram</span>
+                    <span class="text-brandGreen font-semibold flex items-center space-x-1">
+                        <i class="fa-solid fa-check text-[9px]"></i>
+                        <span>WhatsApp Verified</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="pt-4 space-y-3">
+            <h3 class="text-base font-bold text-center text-white px-2">
+                Questions from crew at Jebel Ali, China, USA
+            </h3>
+
+            <div class="space-y-2.5">
+                <!-- FAQ 1 -->
+                <div class="bg-cardBg border border-cardBorder rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full text-left p-3.5 text-xs font-semibold text-white flex justify-between items-center">
+                        <span class="pr-2">Do you have UAE Unlimited? Is 10GB enough?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
                     </button>
-                    <div id="faq-ans-1" class="hidden p-4 pt-0 text-slate-300 border-t border-slate-800/50 leading-relaxed">
-                        Yes, we offer both! 10GB (2GB/day) is enough for WhatsApp video calls, maps & UPI for 5 days at Jebel Ali / Dubai. If you stream a lot, take our Unlimited at ₹1350 — still 50% cheaper than Holafly's $20.50 (₹1710). Both on Global 5G Networks via Etisalat / du.
+                    <div id="faq-ans-1" class="hidden px-3.5 pb-3 text-[11px] text-slate-300 leading-relaxed border-t border-slate-800/60 pt-2">
+                        Yes, we offer both! 10GB (2GB/day) is enough for WhatsApp video calls, maps & UPI for 5 days at Jebel Ali / Dubai. If you stream a lot, take our Unlimited plan — still 50% cheaper than Holafly.
                     </div>
                 </div>
 
-                <!-- FAQ Item 2 -->
-                <div class="bg-navy-800 rounded-xl border border-slate-800 overflow-hidden">
-                    <button onclick="toggleFaq(2)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center">
-                        <span>Which network will I get? Will it work inside ship?</span>
-                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                <!-- FAQ 2 -->
+                <div class="bg-cardBg border border-cardBorder rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full text-left p-3.5 text-xs font-semibold text-white flex justify-between items-center">
+                        <span class="pr-2">Which network will I get? Will it work inside ship?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
                     </button>
-                    <div id="faq-ans-2" class="hidden p-4 pt-0 text-slate-300 border-t border-slate-800/50 leading-relaxed">
+                    <div id="faq-ans-2" class="hidden px-3.5 pb-3 text-[11px] text-slate-300 leading-relaxed border-t border-slate-800/60 pt-2">
                         We connect to top Tier-1 local networks (like Etisalat, Singtel, Vodafone). Coverage inside ship accommodation depends on port proximity, but signal strength at berth/anchorage is excellent.
                     </div>
                 </div>
 
-                <!-- FAQ Item 3 -->
-                <div class="bg-navy-800 rounded-xl border border-slate-800 overflow-hidden">
-                    <button onclick="toggleFaq(3)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center">
-                        <span>How fast will I get QR? I have short shore leave.</span>
-                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                <!-- FAQ 3 -->
+                <div class="bg-cardBg border border-cardBorder rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(3)" class="w-full text-left p-3.5 text-xs font-semibold text-white flex justify-between items-center">
+                        <span class="pr-2">How fast will I get QR? I have short shore leave.</span>
+                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
                     </button>
-                    <div id="faq-ans-3" class="hidden p-4 pt-0 text-slate-300 border-t border-slate-800/50 leading-relaxed">
+                    <div id="faq-ans-3" class="hidden px-3.5 pb-3 text-[11px] text-slate-300 leading-relaxed border-t border-slate-800/60 pt-2">
                         Delivery is instant! Within 3-5 minutes of payment confirmation on WhatsApp, your QR code is sent directly to your WhatsApp and email address.
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
     </main>
 
-    <!-- Footer / Contact Info -->
-    <footer class="bg-navy-950 border-t border-slate-800 pt-10 pb-6 text-xs text-slate-400">
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div>
-                <h5 class="font-bold text-white text-sm mb-3">Customer Support</h5>
-                <p><i class="fa-regular fa-envelope mr-2"></i> Support@oceanseafareresim.com</p>
-                <p class="mt-1"><i class="fa-brands fa-whatsapp mr-2 text-mint-400"></i> +91 75061 78946</p>
+    <!-- Footer -->
+    <footer class="bg-[#050912] border-t border-slate-800/80 pt-6 pb-8 px-4 text-xs text-slate-300 space-y-5">
+        <div class="max-w-lg mx-auto space-y-4">
+            <!-- Customer Support -->
+            <div class="space-y-1">
+                <h5 class="font-bold text-white text-xs">Customer Support</h5>
+                <p class="text-[11px] text-slate-400 flex items-center space-x-2">
+                    <i class="fa-regular fa-envelope text-xs"></i>
+                    <span>Support@oceanseafareresim.com</span>
+                </p>
+                <p class="text-[11px] text-slate-400 flex items-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-brandGreen text-xs"></i>
+                    <span>+91 75061 78946</span>
+                </p>
             </div>
-            <div>
-                <h5 class="font-bold text-white text-sm mb-3">General Enquiries</h5>
-                <p><i class="fa-regular fa-envelope mr-2"></i> Info@oceanseafareresim.com</p>
-            </div>
-            <div>
-                <h5 class="font-bold text-white text-sm mb-3">Business / Partnerships</h5>
-                <p><i class="fa-regular fa-envelope mr-2"></i> Sales@oceanseafareresim.com</p>
-            </div>
-        </div>
 
-        <!-- Payment Accepted Icons -->
-        <div class="text-center py-4 border-t border-slate-900 flex justify-center space-x-4 text-lg text-slate-300">
-            <i class="fa-brands fa-google-pay hover:text-white transition"></i>
-            <i class="fa-brands fa-apple-pay hover:text-white transition"></i>
-            <i class="fa-solid fa-credit-card hover:text-white transition"></i>
-            <i class="fa-solid fa-qrcode hover:text-white transition"></i>
-        </div>
+            <!-- General Enquiries -->
+            <div class="space-y-1">
+                <h5 class="font-bold text-white text-xs">General Enquiries</h5>
+                <p class="text-[11px] text-slate-400 flex items-center space-x-2">
+                    <i class="fa-regular fa-envelope text-xs"></i>
+                    <span>Info@oceanseafareresim.com</span>
+                </p>
+            </div>
 
-        <div class="text-center text-[11px] text-slate-500 pt-3">
-            <p><strong>OCEAN SEAFARER eSIM</strong> - Seafarer eSIM by Seafarer Family - Founded by Amanpreet Kaur, Daughter of a Seafarer.</p>
-            <p class="mt-1">© 2026 Ocean Seafarer eSIM - Stay Connected. Anywhere. Anytime.</p>
+            <!-- Business / Partnerships -->
+            <div class="space-y-1">
+                <h5 class="font-bold text-white text-xs">Business / Partnerships</h5>
+                <p class="text-[11px] text-slate-400 flex items-center space-x-2">
+                    <i class="fa-regular fa-envelope text-xs"></i>
+                    <span>Sales@oceanseafareresim.com</span>
+                </p>
+            </div>
+
+            <!-- Payment Icons -->
+            <div class="pt-2 flex justify-center items-center space-x-4 text-sm text-slate-200">
+                <span class="font-bold text-[11px] text-slate-300"><i class="fa-brands fa-google-pay text-lg"></i> Pay</span>
+                <span class="font-bold text-[11px] text-slate-300"><i class="fa-brands fa-apple text-sm"></i> Pay</span>
+                <i class="fa-solid fa-credit-card text-xs"></i>
+                <i class="fa-solid fa-qrcode text-xs"></i>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center text-[10px] text-slate-500 pt-2 border-t border-slate-900">
+                <p>OCEAN SEAFARER eSIM - Seafarer eSIM by Seafarer Family - Founded by Amanpreet Kaur</p>
+            </div>
         </div>
     </footer>
 
-    <!-- Simple JavaScript for interactivity -->
+    <!-- Interactive JavaScript -->
     <script>
-        // Toggle FAQ Accordion
         function toggleFaq(num) {
             const ans = document.getElementById(`faq-ans-${num}`);
             const icon = document.getElementById(`faq-icon-${num}`);
@@ -488,25 +386,18 @@
             }
         }
 
-        // Toggle Currency (INR <-> USD)
         let isINR = true;
         function toggleCurrency() {
             isINR = !isINR;
             const flag = document.getElementById('currFlag');
             const text = document.getElementById('currText');
-            const inrPrices = document.querySelectorAll('.price-inr');
-            const usdPrices = document.querySelectorAll('.price-usd');
 
             if (isINR) {
                 flag.textContent = '🇮🇳';
                 text.textContent = 'INR (₹)';
-                inrPrices.forEach(el => el.classList.remove('hidden'));
-                usdPrices.forEach(el => el.classList.add('hidden'));
             } else {
                 flag.textContent = '🇺🇸';
                 text.textContent = 'USD ($)';
-                inrPrices.forEach(el => el.classList.add('hidden'));
-                usdPrices.forEach(el => el.classList.remove('hidden'));
             }
         }
     </script>
